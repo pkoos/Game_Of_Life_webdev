@@ -1,42 +1,50 @@
+import {WIDTH_PIXELS, PIXEL_SIZE, } from "./constants.js";
+
+
 class Pixel {
-    constructor(context, height, width, isAlive = false) {
+    constructor(context, y, x, isAlive = false) {
         this.context = context;
-        this.height = height * PIXEL_SIZE;
-        this.width = width * PIXEL_SIZE;
+        this.x = x;
+        this.y = y;
+        this.index = y * WIDTH_PIXELS + x;
+        this.canvas_y = y * PIXEL_SIZE;
+        this.canvas_x = x * PIXEL_SIZE;
         this.isAlive = isAlive;
     }
 
-    drawPixel() {
-        this.context.fillRect(this.width, this.height, PIXEL_SIZE, PIXEL_SIZE);
+    draw() {
+        this.context.fillRect(this.canvas_x, this.canvas_y, PIXEL_SIZE, PIXEL_SIZE);
     }
 
-    clearPixel() {
-        this.context.clearRect(this.width, this.height, PIXEL_SIZE, PIXEL_SIZE);
+    clear() {
+        this.context.clearRect(this.canvas_x, this.canvas_y, PIXEL_SIZE, PIXEL_SIZE);
     }
 
-    togglePixel() {
+    toggle() {
         if(this.isAlive) {
-            this.drawPixel();
+            this.draw();
         }
         else {
-            this.clearPixel();
-            this.context.strokeRect(this.width, this.height, PIXEL_SIZE, PIXEL_SIZE);
+            this.clear();
+            this.context.strokeRect(this.canvas_x, this.canvas_y, PIXEL_SIZE, PIXEL_SIZE);
         }
     }
 
     bothAreEven() {
-        return this.height % 2 == 0 && this.width % 2 == 0;
+        return this.canvas_x % 2 == 0 && this.canvas_y % 2 == 0;
     }
     
     bothAreOdd() {
-        return this.height % 2 == 1 && this.width % 2 == 1;
+        return this.canvas_x % 2 == 1 && this.canvas_y % 2 == 1;
     }
 
     onlyHeightEven() {
-        return this.height % 2 == 0 && this.width % 2 == 1;
+        return this.canvas_x % 2 == 0 && this.canvas_y % 2 == 1;
     }
 
     onlyWidthEven() {
-        return this.height % 2 == 1 && this.width % 2 == 0;
+        return this.canvas_x % 2 == 1 && this.canvas_y % 2 == 0;
     }
 }
+
+export { Pixel };

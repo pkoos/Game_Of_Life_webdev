@@ -1,45 +1,5 @@
-class Pixel {
-    constructor(context, height, width, isAlive = false) {
-        this.context = context;
-        this.height = height * PIXEL_SIZE;
-        this.width = width * PIXEL_SIZE;
-        this.isAlive = isAlive;
-    }
-
-    drawPixel() {
-        this.context.fillRect(this.width, this.height, PIXEL_SIZE, PIXEL_SIZE);
-    }
-
-    clearPixel() {
-        this.context.clearRect(this.width, this.height, PIXEL_SIZE, PIXEL_SIZE);
-    }
-
-    togglePixel() {
-        if(this.isAlive) {
-            this.drawPixel();
-        }
-        else {
-            this.clearPixel();
-            this.context.strokeRect(this.width, this.height, PIXEL_SIZE, PIXEL_SIZE);
-        }
-    }
-
-    bothAreEven() {
-        return this.height % 2 == 0 && this.width % 2 == 0;
-    }
-    
-    bothAreOdd() {
-        return this.height % 2 == 1 && this.width % 2 == 1;
-    }
-
-    onlyHeightEven() {
-        return this.height % 2 == 0 && this.width % 2 == 1;
-    }
-
-    onlyWidthEven() {
-        return this.height % 2 == 1 && this.width % 2 == 0;
-    }
-}
+import { WIDTH_PIXELS, PIXEL_SIZE, MAX_WIDTH, MAX_HEIGHT, HEIGHT_PIXELS } from "./constants.js";
+import {Pixel} from "./pixel.js";
 
 class LifeRules {
     constructor(board) {
@@ -74,45 +34,9 @@ class LifeRules {
 }
 
 function eventHandlers() {
-    var drawButton = document.getElementById("drawButton");
-    drawButton.addEventListener("click", (event) => {
-        console.log("Draw button was clicked");
-        clearPixels();
-        drawGrid(ctx);
-        drawSquares();
-    });
-    
-    var switchButton = document.getElementById("switchButton");
-    switchButton.addEventListener("click", (event) => {
-        console.log("Switch button was clicked");
-        clearPixels(ctx);
-        drawGrid(ctx);
-        switchSquares(ctx);
-    });
-    
-    var clearButton = document.getElementById("clearButton");
-    clearButton.addEventListener("click", (event) => {
-        clearPixels(ctx);
-        drawGrid(ctx);
-    });
-    
-    c.addEventListener("click", (event) => {
-    
-        var rect = c.getBoundingClientRect();
-    
-        var canvas_x = event.pageX - c.offsetLeft;
-        var canvas_y = event.pageY - c.offsetTop;
-    
-        var x_element = Math.floor(canvas_x / PIXEL_SIZE);
-        var y_element = Math.floor(canvas_y / PIXEL_SIZE);
-    
-        var pixelIndex = y_element * WIDTH_PIXELS + x_element;
-    
-        var pixel = pixels[pixelIndex];
-        
-        pixel.isAlive = !pixel.isAlive;
-        pixel.togglePixel();
-    });
+    /*
+        Second row of buttons: Save Starting Position, Restore Starting Position, Next Generation
+    */
     
     var saveStartingButton = document.getElementById("saveStarting");
     saveStartingButton.addEventListener("click", (event) => {
@@ -120,6 +44,14 @@ function eventHandlers() {
         startingPixels = JSON.parse(JSON.stringify(pixels));
         console.log(startingPixels);
         getLivePixels(startingPixels);
+    });
+
+    var restoreStartingPositionButton = document.getElementById("restoreStarting");
+    restoreStartingPositionButton.addEventListener("click", (event) => {
+        console.log("restore starting position clicked");
+        console.log("starting Pixels: ")
+        getLivePixels(startingPixels);
+        drawLivePixels(startingPixels);
     });
     
     var startingLivePixelsButton = document.getElementById("startingLivePixels");
@@ -141,52 +73,10 @@ function eventHandlers() {
     });
 }
 
-function drawGrid(context) {
-    var vert_lines_counter = 0;
-
-    while (vert_lines_counter < MAX_WIDTH) {
-        vert_lines_counter += PIXEL_SIZE;
-        context.moveTo(vert_lines_counter, 0);
-        context.lineTo(vert_lines_counter, MAX_HEIGHT);
-        context.stroke();
-    }
-    
-    var horiz_lines_counter = 0;
-    
-    while (horiz_lines_counter < MAX_HEIGHT) {
-        horiz_lines_counter += PIXEL_SIZE;
-        context.moveTo(0, horiz_lines_counter);
-        context.lineTo(MAX_WIDTH, horiz_lines_counter);
-        context.stroke();
-    }
-}
-
-function getNeighborPixels() {
-    console.log("getNeighborPixels");
-}
-
-function initPixels(context) {
-    for(var h = 0;h < HEIGHT_PIXELS; h++) {
-        for(var w = 0; w < WIDTH_PIXELS; w++) {
-            var pixel = new Pixel(context, h, w);
-            pixels.push(pixel);
-        }
-    }
-}
-
 function clearPixels() {
     pixels.forEach((pixel) => {
         pixel.isAlive = false;
         pixel.togglePixel();
-    });
-}
-
-function drawSquares() {
-    pixels.forEach((pixel) => {
-        if (pixel.bothAreEven() || pixel.bothAreOdd()) {
-            pixel.isAlive = true;
-            pixel.togglePixel();
-        }
     });
 }
 
@@ -209,15 +99,12 @@ function getLivePixels(pixels, isStarting = false) {
     console.log(`${isStarting ? "starting " : ""}live pixels:`);
     console.log(livePixels)
 }
-// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-// The code that we run is below this line, above this line are all the functions needed.
-var MAX_WIDTH = 1200;
-var MAX_HEIGHT = 800;
-var PIXEL_SIZE = 25;
-var WIDTH_PIXELS = MAX_WIDTH / PIXEL_SIZE;
-var HEIGHT_PIXELS = MAX_HEIGHT / PIXEL_SIZE;
 
-var TOTAL_PIXELS = (MAX_WIDTH/PIXEL_SIZE) * (MAX_HEIGHT/PIXEL_SIZE)
+function drawLivePixels(pixelsToDraw) {
+    pixelsToDraw.forEach((pixel) => {
+        pixel.drawPixel();
+    });
+}
 
 var pixels = [];
 
@@ -228,7 +115,7 @@ var startingPixels = [];
 var c = document.getElementById("CGoL_Board");
 var ctx = c.getContext("2d");
 
-initPixels(ctx);
-drawGrid(ctx);
+
 eventHandlers();
 
+console.log(`canvas pixel width x height: ${MAX_WIDTH / PIXEL_SIZE} x ${MAX_HEIGHT / PIXEL_SIZE}`);
