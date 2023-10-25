@@ -130,6 +130,17 @@ function switchSquares() {
         }
     });
 }
+
+function getLivePixels() {
+    var livePixels = [];
+    pixels.forEach((pixel) => {
+        if(pixel.isAlive) {
+            livePixels.push(pixel);
+        }
+    });
+    console.log(`live pixels: ${livePixels}`);
+    console.log(livePixels)
+}
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 // The code that we run is below this line, above this line are all the functions needed.
 var MAX_WIDTH = 1200;
@@ -141,6 +152,8 @@ var HEIGHT_PIXELS = MAX_HEIGHT / PIXEL_SIZE;
 var TOTAL_PIXELS = (MAX_WIDTH/PIXEL_SIZE) * (MAX_HEIGHT/PIXEL_SIZE)
 
 var pixels = [];
+
+var startingPixels = [];
 
 // var grid = document.getElementById("CGoL_Grid");
 // var g_ctx = grid.getContext("2d");
@@ -190,11 +203,17 @@ c.addEventListener("click", (event) => {
     pixel.togglePixel();
 });
 
+var saveStartingButton = document.getElementById("saveStarting");
+saveStartingButton.addEventListener("click", (event) => {
+    console.log("Save Starting Position clicked");
+});
+
+var livePixelsButton = document.getElementById("livePixels");
+livePixelsButton.addEventListener("click", (event) => {
+    getLivePixels();   
+});
+
 var nextGenerationButton = document.getElementById("nextGeneration");
 nextGenerationButton.addEventListener("click", (event) => {
     console.log("Next Generation Button clicked");
 });
-
-console.log(`Total Pixels: ${TOTAL_PIXELS}, Height: ${HEIGHT_PIXELS}, Width: ${WIDTH_PIXELS}`);
-console.log("pixels:");
-console.log(pixels);
