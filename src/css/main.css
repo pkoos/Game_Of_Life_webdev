@@ -11,9 +11,9 @@ h1 {
 }
 
 .buttonClass {
-    margin: 10px;
+    margin: 5px;
 }
 
-#controlButtons {
-    padding: 10px;
+.buttonsGroup {
+    padding: 5px;
 }

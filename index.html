@@ -8,15 +8,19 @@
 </head>
 <body>
     <h1>Conway's Game of Life</h1>
-    <div id="controlButtons">
+    <div class="buttonsGroup" id="controlButtons">
         <button class="buttonClass" id="drawButton">Draw Button</button>
         <button class="buttonClass" id="switchButton">Switch Button</button>
         <button class="buttonClass" id="clearButton">Clear</button>
     </div>
-    <div id="otherButtons">
+    <div class="buttonsGroup" id="otherButtons">
         <button class="buttonClass" id="saveStarting">Save Starting Position</button>
-        <button class="buttonClass" id="livePixels">Live Pixels</button>
+        <button class="buttonClass" id="restoreStarting">Restore Starting Position</button>
         <button class="buttonClass" id="nextGeneration">Next Generation</button>
+    </div>
+    <div class="buttonsGroup" id="otherOtherButtons">
+        <button class="buttonClass" id="startingLivePixels">Starting Live Pixels</button>
+        <button class="buttonClass" id="currentLivePixels">Current Live Pixels</button>
     </div>
     <canvas id="CGoL_Board" width="1200" height="800"></canvas>
 </body>

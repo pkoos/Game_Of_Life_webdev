@@ -73,6 +73,74 @@ class LifeRules {
     }
 }
 
+function eventHandlers() {
+    var drawButton = document.getElementById("drawButton");
+    drawButton.addEventListener("click", (event) => {
+        console.log("Draw button was clicked");
+        clearPixels();
+        drawGrid(ctx);
+        drawSquares();
+    });
+    
+    var switchButton = document.getElementById("switchButton");
+    switchButton.addEventListener("click", (event) => {
+        console.log("Switch button was clicked");
+        clearPixels(ctx);
+        drawGrid(ctx);
+        switchSquares(ctx);
+    });
+    
+    var clearButton = document.getElementById("clearButton");
+    clearButton.addEventListener("click", (event) => {
+        clearPixels(ctx);
+        drawGrid(ctx);
+    });
+    
+    c.addEventListener("click", (event) => {
+    
+        var rect = c.getBoundingClientRect();
+    
+        var canvas_x = event.pageX - c.offsetLeft;
+        var canvas_y = event.pageY - c.offsetTop;
+    
+        var x_element = Math.floor(canvas_x / PIXEL_SIZE);
+        var y_element = Math.floor(canvas_y / PIXEL_SIZE);
+    
+        var pixelIndex = y_element * WIDTH_PIXELS + x_element;
+    
+        var pixel = pixels[pixelIndex];
+        
+        pixel.isAlive = !pixel.isAlive;
+        pixel.togglePixel();
+    });
+    
+    var saveStartingButton = document.getElementById("saveStarting");
+    saveStartingButton.addEventListener("click", (event) => {
+        console.log("Save Starting Position clicked");
+        startingPixels = JSON.parse(JSON.stringify(pixels));
+        console.log(startingPixels);
+        getLivePixels(startingPixels);
+    });
+    
+    var startingLivePixelsButton = document.getElementById("startingLivePixels");
+    startingLivePixelsButton.addEventListener("click", (event) => {
+        console.log("starting live pixels clicked");
+        getLivePixels(startingPixels, true);   
+    });
+    
+    var currentLivePixelsButton = document.getElementById("currentLivePixels");
+    currentLivePixelsButton.addEventListener("click", (event) => {
+        console.log("current live pixels clicked");
+        getLivePixels(pixels);   
+    });
+    
+    var nextGenerationButton = document.getElementById("nextGeneration");
+    nextGenerationButton.addEventListener("click", (event) => {
+        console.log("Next Generation Button clicked");
+        
+    });
+}
+
 function drawGrid(context) {
     var vert_lines_counter = 0;
 
@@ -131,14 +199,14 @@ function switchSquares() {
     });
 }
 
-function getLivePixels() {
+function getLivePixels(pixels, isStarting = false) {
     var livePixels = [];
     pixels.forEach((pixel) => {
         if(pixel.isAlive) {
             livePixels.push(pixel);
         }
     });
-    console.log(`live pixels: ${livePixels}`);
+    console.log(`${isStarting ? "starting " : ""}live pixels:`);
     console.log(livePixels)
 }
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
@@ -162,58 +230,5 @@ var ctx = c.getContext("2d");
 
 initPixels(ctx);
 drawGrid(ctx);
+eventHandlers();
 
-var drawButton = document.getElementById("drawButton");
-drawButton.addEventListener("click", (event) => {
-    console.log("Draw button was clicked");
-    clearPixels();
-    drawGrid(ctx);
-    drawSquares();
-});
-
-var switchButton = document.getElementById("switchButton");
-switchButton.addEventListener("click", (event) => {
-    console.log("Switch button was clicked");
-    clearPixels(ctx);
-    drawGrid(ctx);
-    switchSquares(ctx);
-});
-
-var clearButton = document.getElementById("clearButton");
-clearButton.addEventListener("click", (event) => {
-    clearPixels(ctx);
-    drawGrid(ctx);
-});
-
-c.addEventListener("click", (event) => {
-
-    var rect = c.getBoundingClientRect();
-
-    var canvas_x = event.pageX - c.offsetLeft;
-    var canvas_y = event.pageY - c.offsetTop;
-
-    var x_element = Math.floor(canvas_x / PIXEL_SIZE);
-    var y_element = Math.floor(canvas_y / PIXEL_SIZE);
-
-    var pixelIndex = y_element * WIDTH_PIXELS + x_element;
-
-    var pixel = pixels[pixelIndex];
-    
-    pixel.isAlive = !pixel.isAlive;
-    pixel.togglePixel();
-});
-
-var saveStartingButton = document.getElementById("saveStarting");
-saveStartingButton.addEventListener("click", (event) => {
-    console.log("Save Starting Position clicked");
-});
-
-var livePixelsButton = document.getElementById("livePixels");
-livePixelsButton.addEventListener("click", (event) => {
-    getLivePixels();   
-});
-
-var nextGenerationButton = document.getElementById("nextGeneration");
-nextGenerationButton.addEventListener("click", (event) => {
-    console.log("Next Generation Button clicked");
-});
