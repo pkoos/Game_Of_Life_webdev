@@ -1,6 +1,3 @@
-import { WIDTH_PIXELS, PIXEL_SIZE, MAX_WIDTH, MAX_HEIGHT, HEIGHT_PIXELS } from "./constants.js";
-import {Pixel} from "./pixel.js";
-
 class LifeRules {
     constructor(board) {
         this.board = board;
@@ -32,53 +29,3 @@ class LifeRules {
         // a dead cell with 3 live neighbors lives.
     }
 }
-
-function eventHandlers() {
-    /*
-        Second row of buttons: Save Starting Position, Restore Starting Position, Next Generation
-    */
-    
-    // var saveStartingButton = document.getElementById("saveStarting");
-    // saveStartingButton.addEventListener("click", (event) => {
-    //     console.log("Save Starting Position clicked");
-    //     startingPixels = JSON.parse(JSON.stringify(pixels));
-    //     console.log(startingPixels);
-    //     getLivePixels(startingPixels);
-    // });
-
-    var restoreStartingPositionButton = document.getElementById("restoreStarting");
-    restoreStartingPositionButton.addEventListener("click", (event) => {
-        console.log("restore starting position clicked");
-        console.log("starting Pixels: ")
-        getLivePixels(startingPixels);
-        drawLivePixels(startingPixels);
-    });
-    
-    var startingLivePixelsButton = document.getElementById("startingLivePixels");
-    startingLivePixelsButton.addEventListener("click", (event) => {
-        console.log("starting live pixels clicked");
-        getLivePixels(startingPixels, true);   
-    });
-    
-    var currentLivePixelsButton = document.getElementById("currentLivePixels");
-    currentLivePixelsButton.addEventListener("click", (event) => {
-        console.log("current live pixels clicked");
-        getLivePixels(pixels);   
-    });
-    
-    var nextGenerationButton = document.getElementById("nextGeneration");
-    nextGenerationButton.addEventListener("click", (event) => {
-        console.log("Next Generation Button clicked");
-        
-    });
-}
-
-function drawLivePixels(pixelsToDraw) {
-    pixelsToDraw.forEach((pixel) => {
-        pixel.drawPixel();
-    });
-}
-
-eventHandlers();
-
-console.log(`canvas pixel width x height: ${MAX_WIDTH / PIXEL_SIZE} x ${MAX_HEIGHT / PIXEL_SIZE}`);

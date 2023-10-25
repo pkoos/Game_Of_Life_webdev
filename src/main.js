@@ -42,6 +42,16 @@ function loadJavaScript(event) {
     restorePositionButton.addEventListener("click", () => {
         restorePosition(savedPixels);
     });
+
+    let savedLivePixelsButton = document.getElementById("savedLivePixels");
+    savedLivePixelsButton.addEventListener("click", () => {
+        console.log(getLivePixels(savedPixels, false));
+    });
+
+    let currentLivePixelsButton = document.getElementById("currentLivePixels");
+    currentLivePixelsButton.addEventListener("click", () => {
+        console.log(getLivePixels(pixels, true));
+    });
 }
 
 function toggleCanvasPixel(event, canvas, pixels) {
