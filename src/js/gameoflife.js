@@ -41,6 +41,28 @@ class Pixel {
     }
 }
 
+class LifeRules {
+    constructor(pixel) {
+        this.pixel = pixel;
+    }
+
+    underpopulation() {
+        // a live cell with less than 2 live neighbors dies.
+    }
+
+    neutralpopulation() {
+        // a live cell with 2 - 3 live neighbors lives.
+    }
+
+    overpopulation() {
+        // a live cell with 3 or more neighbors dies.
+    }
+
+    reproduction() {
+        // a dead cell with 3 live neighbors lives.
+    }
+}
+
 function drawGrid(context) {
     var vert_lines_counter = 0;
 
@@ -161,6 +183,11 @@ c.addEventListener("click", (event) => {
     pixel.isAlive = !pixel.isAlive;
     console.log(`is pixel alive? ${pixel.isAlive}`);
     pixel.togglePixel();
+});
+
+var nextGenerationButton = document.getElementById("nextGeneration");
+nextGenerationButton.addEventListener("click", (event) => {
+    console.log("Next Generation Button clicked");
 });
 
 console.log(`Total Pixels: ${TOTAL_PIXELS}, Height: ${HEIGHT_PIXELS}, Width: ${WIDTH_PIXELS}`);
