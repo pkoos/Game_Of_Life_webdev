@@ -30,6 +30,7 @@ Possible improvements:
 3. Write in something other than Javascript. If I can figure this out, I might try to do this in `wasm` or another language.
 4. Use some type of restful functions.
 5. Add a web framework to make the website better.
+6. Figure out how to separate the monolith JS file into separate files.
 
 I can never remember this, so it's in the readme :)
 
