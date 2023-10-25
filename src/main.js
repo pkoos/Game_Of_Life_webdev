@@ -7,6 +7,7 @@ import { Pixel} from "./js/pixel.js";
 
 function loadJavaScript(event) {
     let pixels = [];
+    let savedPixels = [];
     let canvas = document.getElementById("CGoL_Board");
     let canvas_context = canvas.getContext("2d");
 
@@ -31,6 +32,16 @@ function loadJavaScript(event) {
     clearButton.addEventListener("click", () => {
         clearPixels(pixels);
     });
+
+    let savePositionButton = document.getElementById("savePosition");
+    savePositionButton.addEventListener("click", () => {
+        savedPixels = savePosition(pixels);
+    });
+
+    let restorePositionButton = document.getElementById("restorePosition");
+    restorePositionButton.addEventListener("click", () => {
+        restorePosition(savedPixels);
+    });
 }
 
 function toggleCanvasPixel(event, canvas, pixels) {
@@ -44,11 +55,9 @@ function toggleCanvasPixel(event, canvas, pixels) {
     let pixel = pixels[pixel_index];
     pixel.isAlive = !pixel.isAlive;
     pixel.toggle();
-    console.log(pixel);
 }
 
 function drawingTest(canvas_context, pixels) {
-    console.log("Draw Button was clicked.");
     clearPixels(pixels);
     initializeGrid(canvas_context);
     pixels.forEach((pixel) => {
@@ -60,7 +69,6 @@ function drawingTest(canvas_context, pixels) {
 }
 
 function switchTest(canvas_context, pixels) {
-    console.log("Switch Button was pressed");
     clearPixels(pixels);
     initializeGrid(canvas_context);
     pixels.forEach((pixel) => {
@@ -102,6 +110,33 @@ function initializePixels(canvas_context, pixels) {
 function clearPixels(pixels) {
     pixels.forEach((pixel) => {
         pixel.isAlive = false;
+        pixel.toggle();
+    });
+}
+
+function savePosition(currentPixels) {
+    let savedPixels = [];
+    currentPixels.forEach((pixel) => {
+        let newPixel = new Pixel(pixel.context, pixel.y, pixel.x, pixel.isAlive);
+        savedPixels.push(newPixel);
+    });
+
+    return savedPixels;
+}
+
+function getLivePixels(pixels, isStarting = false) {
+    var livePixels = [];
+    pixels.forEach((pixel) => {
+        if(pixel.isAlive) {
+            livePixels.push(pixel);
+        }
+    });
+
+    return livePixels;
+}
+
+function restorePosition(savedPixels) {
+    savedPixels.forEach((pixel) => {
         pixel.toggle();
     });
 }

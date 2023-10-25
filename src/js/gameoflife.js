@@ -38,13 +38,13 @@ function eventHandlers() {
         Second row of buttons: Save Starting Position, Restore Starting Position, Next Generation
     */
     
-    var saveStartingButton = document.getElementById("saveStarting");
-    saveStartingButton.addEventListener("click", (event) => {
-        console.log("Save Starting Position clicked");
-        startingPixels = JSON.parse(JSON.stringify(pixels));
-        console.log(startingPixels);
-        getLivePixels(startingPixels);
-    });
+    // var saveStartingButton = document.getElementById("saveStarting");
+    // saveStartingButton.addEventListener("click", (event) => {
+    //     console.log("Save Starting Position clicked");
+    //     startingPixels = JSON.parse(JSON.stringify(pixels));
+    //     console.log(startingPixels);
+    //     getLivePixels(startingPixels);
+    // });
 
     var restoreStartingPositionButton = document.getElementById("restoreStarting");
     restoreStartingPositionButton.addEventListener("click", (event) => {
@@ -73,48 +73,11 @@ function eventHandlers() {
     });
 }
 
-function clearPixels() {
-    pixels.forEach((pixel) => {
-        pixel.isAlive = false;
-        pixel.togglePixel();
-    });
-}
-
-function switchSquares() {
-    pixels.forEach((pixel) => {
-        if(pixel.onlyWidthEven() || pixel.onlyHeightEven()) {
-            pixel.isAlive = true;
-            pixel.togglePixel();
-        }
-    });
-}
-
-function getLivePixels(pixels, isStarting = false) {
-    var livePixels = [];
-    pixels.forEach((pixel) => {
-        if(pixel.isAlive) {
-            livePixels.push(pixel);
-        }
-    });
-    console.log(`${isStarting ? "starting " : ""}live pixels:`);
-    console.log(livePixels)
-}
-
 function drawLivePixels(pixelsToDraw) {
     pixelsToDraw.forEach((pixel) => {
         pixel.drawPixel();
     });
 }
-
-var pixels = [];
-
-var startingPixels = [];
-
-// var grid = document.getElementById("CGoL_Grid");
-// var g_ctx = grid.getContext("2d");
-var c = document.getElementById("CGoL_Board");
-var ctx = c.getContext("2d");
-
 
 eventHandlers();
 
