@@ -42,8 +42,18 @@ class Pixel {
 }
 
 class LifeRules {
-    constructor(pixel) {
-        this.pixel = pixel;
+    constructor(board) {
+        this.board = board;
+    }
+
+    getNeighbors(x, y) {
+        var neighbors = [];
+
+        var starting_x = x === 0 ? 0 : x - 1;
+        var starting_y = y === 0 ? 0 : y - 1;
+
+        // neighbors order: start at top left and work down to bottom right
+        // there will be either 3, 5, or 8 neighbors, depending on if x/y is zero.
     }
 
     underpopulation() {
@@ -164,24 +174,19 @@ clearButton.addEventListener("click", (event) => {
 
 c.addEventListener("click", (event) => {
 
-    var canvas_x = event.clientX - c.offsetLeft;
-    var canvas_y = event.clientY - c.offsetTop;
-    
-    console.log(`normalized coordinates: x: ${canvas_x}, y: ${canvas_y}`);
+    var rect = c.getBoundingClientRect();
 
+    var canvas_x = event.pageX - c.offsetLeft;
+    var canvas_y = event.pageY - c.offsetTop;
 
     var x_element = Math.floor(canvas_x / PIXEL_SIZE);
     var y_element = Math.floor(canvas_y / PIXEL_SIZE);
 
-    console.log(`x pixel: ${x_element}, y pixel: ${y_element}`);
-
     var pixelIndex = y_element * WIDTH_PIXELS + x_element;
-    var pixel = pixels[pixelIndex];
 
-    console.log(pixel);
+    var pixel = pixels[pixelIndex];
     
     pixel.isAlive = !pixel.isAlive;
-    console.log(`is pixel alive? ${pixel.isAlive}`);
     pixel.togglePixel();
 });
 
