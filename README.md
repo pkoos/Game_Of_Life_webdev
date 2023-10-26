@@ -32,6 +32,7 @@ Possible improvements:
 5. Add a web framework to make the website better.
 6. Figure out how to separate the monolith JS file into separate files.
 
-I can never remember this, so it's in the readme :)
+### Helpful Links
 
-[Markdown Guide](https://www.markdownguide.org/basic-syntax/)
+- [Markdown Guide](https://www.markdownguide.org/basic-syntax/) - I can never remember this, so it's in the readme :)
+- [Cool Color Picker](https://htmlcolors.com/hex/3d605f) - This is especially awesome for shades and tints.
