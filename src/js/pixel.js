@@ -1,4 +1,4 @@
-import {WIDTH_PIXELS, PIXEL_SIZE, } from "./constants.js";
+import { PIXEL_SIZE } from "./constants.js";
 
 
 class Pixel {

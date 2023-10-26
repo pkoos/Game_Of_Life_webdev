@@ -1,4 +1,4 @@
-import { MAX_WIDTH, MAX_HEIGHT, PIXEL_SIZE, WIDTH_PIXELS, HEIGHT_PIXELS } from "./js/constants.js";
+import { MAX_WIDTH, MAX_HEIGHT, PIXEL_SIZE, WIDTH_PIXELS, HEIGHT_PIXELS, DEFAULT_SHAPE_NAMES } from "./js/constants.js";
 import { Pixel} from "./js/pixel.js";
 
 /*
@@ -47,6 +47,8 @@ function loadJavaScript(event) {
     currentLivePixelsButton.addEventListener("click", () => {
         console.log(getLivePixels(pixels, true));
     });
+
+    shapesClickHandlers();
 }
 
 function toggleCanvasPixel(event, canvas, pixels) {
@@ -153,6 +155,15 @@ function getLivePixels(pixels, isStarting = false) {
 function restorePosition(savedPixels) {
     savedPixels.forEach((pixel) => {
         pixel.toggle();
+    });
+}
+
+function shapesClickHandlers() {
+    DEFAULT_SHAPE_NAMES.forEach((shape) => {
+        let button = document.getElementById(`shape${shape}`);
+        button.addEventListener("click", (event) => {
+            console.log(`${shape} clicked`);
+        });
     });
 }
 
