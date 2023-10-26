@@ -7,12 +7,7 @@ const PIXEL_SIZE = 25;
 const WIDTH_PIXELS = MAX_WIDTH / PIXEL_SIZE;
 const HEIGHT_PIXELS = MAX_HEIGHT / PIXEL_SIZE;
 
-const TOTAL_PIXELS = (MAX_WIDTH/PIXEL_SIZE) * (MAX_HEIGHT/PIXEL_SIZE)
-const DEFAULT_SHAPE_NAMES = [
-    "Block", "Beehive", "Loaf", "Boat", "Tub", 
-    "Blinker", "Toad", "Pulsar", "Penta-decathlon", 
-    "Glider", "LWSS", "MWSS", "HWSS"
-];
+const TOTAL_PIXELS = (MAX_WIDTH/PIXEL_SIZE) * (MAX_HEIGHT/PIXEL_SIZE);
 
 const DEFAULT_SHAPE_OBJECTS = [
     new Shape(
@@ -59,9 +54,9 @@ const DEFAULT_SHAPE_OBJECTS = [
     new Shape(
         "Blinker", 3, 3, 
         [
-            new Pixel(0, 0, false), new Pixel(0, 1, true), new Pixel(0, 2, false),
-            new Pixel(0, 1, false), new Pixel(1, 1, true), new Pixel(1, 2, false),
-            new Pixel(0, 2, false), new Pixel(2, 1, true), new Pixel(2, 2, false),
+            new Pixel(0, 0, false), new Pixel(0, 1, false), new Pixel(0, 2, false),
+            new Pixel(1, 0, true), new Pixel(1, 1, true), new Pixel(1, 2, true),
+            new Pixel(2, 0, false), new Pixel(2, 1, false), new Pixel(2, 2, false),
         ]
     ),
     new Shape(
@@ -71,6 +66,15 @@ const DEFAULT_SHAPE_OBJECTS = [
             new Pixel(1, 0, false), new Pixel(1, 1, true), new Pixel(1, 2, true), new Pixel(1, 3, true),
             new Pixel(2, 0, true), new Pixel(2, 1, true), new Pixel(2, 2, true), new Pixel(2, 3, false),
             new Pixel(3, 0, false), new Pixel(3, 1, false), new Pixel(3, 2, false), new Pixel(3, 3, false)
+        ]
+    ),
+    new Shape(
+        "Beacon", 4, 4,
+        [
+            new Pixel(0, 0, false), new Pixel(0, 1, false), new Pixel(0, 2, true), new Pixel(0, 3, true),
+            new Pixel(1, 0, false), new Pixel(1, 1, false), new Pixel(1, 2, false), new Pixel(1, 3, true),
+            new Pixel(2, 0, true), new Pixel(2, 1, false), new Pixel(2, 2, false), new Pixel(2, 3, false),
+            new Pixel(3, 0, true), new Pixel(3, 1, true), new Pixel(3, 2, false), new Pixel(3, 3, false)
         ]
     ),
     new Shape(
@@ -149,4 +153,4 @@ const DEFAULT_SHAPE_OBJECTS = [
     )
 ];
 
-export {MAX_WIDTH, MAX_HEIGHT, PIXEL_SIZE, WIDTH_PIXELS, HEIGHT_PIXELS, TOTAL_PIXELS, DEFAULT_SHAPE_NAMES, DEFAULT_SHAPE_OBJECTS };
+export {MAX_WIDTH, MAX_HEIGHT, PIXEL_SIZE, WIDTH_PIXELS, HEIGHT_PIXELS, TOTAL_PIXELS, DEFAULT_SHAPE_OBJECTS };

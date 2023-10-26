@@ -1,11 +1,11 @@
-import { MAX_WIDTH, MAX_HEIGHT, PIXEL_SIZE, WIDTH_PIXELS, HEIGHT_PIXELS, DEFAULT_SHAPE_NAMES } from "./js/constants.js";
+import { MAX_WIDTH, MAX_HEIGHT, PIXEL_SIZE, WIDTH_PIXELS, HEIGHT_PIXELS, DEFAULT_SHAPE_OBJECTS } from "./js/constants.js";
 import { Pixel} from "./js/pixel.js";
 
 /*
     Button Handlers
 */
 
-function loadJavaScript(event) {
+function loadJavaScript() {
     let pixels = [];
     let savedPixels = [];
     let canvas = document.getElementById("CGoL_Board");
@@ -48,7 +48,7 @@ function loadJavaScript(event) {
         console.log(getLivePixels(pixels, true));
     });
 
-    shapesClickHandlers();
+    shapesClickHandlers(canvasContext, pixels);
 }
 
 function toggleCanvasPixel(event, canvas, pixels) {
@@ -158,11 +158,13 @@ function restorePosition(context, savedPixels) {
     });
 }
 
-function shapesClickHandlers() {
-    DEFAULT_SHAPE_NAMES.forEach((shape) => {
-        let button = document.getElementById(`shape${shape}`);
-        button.addEventListener("click", (event) => {
-            console.log(`${shape} clicked`);
+function shapesClickHandlers(context, pixels) {
+    DEFAULT_SHAPE_OBJECTS.forEach((shape) => {
+        let button = document.getElementById(`shape${shape.name}`);
+        button.addEventListener("click", () => {
+            console.log(`${shape.name} clicked`);
+            clearPixels(context, pixels);
+            shape.draw(context);
         });
     });
 }
