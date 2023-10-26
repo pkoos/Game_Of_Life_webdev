@@ -7,7 +7,7 @@ class Shape {
         this.pattern = pattern;
     }
     // going VERY naive to start, all shapes are drawn at 0, 0
-    draw(canvasContext) {
+    draw(canvasContext, starting_y = 0, starting_x = 0) {
         this.pattern.forEach((pixel) => {
             pixel.toggle(canvasContext);
         })

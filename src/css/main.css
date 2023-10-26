@@ -25,6 +25,7 @@ h2, h3, h4 {
 .buttonsGroup {
     background-color: #3d605f;
     border: 3px solid #000000;
+    display: inline-block;
     margin: 5px;
     padding: 5px;
     width: auto;
@@ -36,4 +37,8 @@ h2, h3, h4 {
     margin: 5px;
     padding: 5px;
     width: auto;
+}
+
+#defaultShapes {
+    margin-left: 30px;
 }
