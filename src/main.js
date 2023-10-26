@@ -9,10 +9,10 @@ function loadJavaScript(event) {
     let pixels = [];
     let savedPixels = [];
     let canvas = document.getElementById("CGoL_Board");
-    let canvas_context = canvas.getContext("2d");
+    let canvasContext = canvas.getContext("2d");
 
-    initializePixels(canvas_context, pixels);
-    initializeGrid(canvas_context);
+    initializePixels(pixels);
+    initializeGrid(canvasContext);
 
     canvas.addEventListener("click", (event) => {
         toggleCanvasPixel(event, canvas, pixels);
@@ -20,12 +20,12 @@ function loadJavaScript(event) {
 
     let canvasTest = document.getElementById("canvasTest");
     canvasTest.addEventListener("click", () => {
-        canvasDrawingTest(canvas_context, pixels);
+        canvasDrawingTest(canvasContext, pixels);
     });
 
     let clearButton = document.getElementById("clearButton");
     clearButton.addEventListener("click", () => {
-        clearPixels(pixels);
+        clearPixels(canvasContext, pixels);
     });
 
     let savePositionButton = document.getElementById("savePosition");
@@ -35,7 +35,7 @@ function loadJavaScript(event) {
 
     let restorePositionButton = document.getElementById("restorePosition");
     restorePositionButton.addEventListener("click", () => {
-        restorePosition(savedPixels);
+        restorePosition(canvasContext, savedPixels);
     });
 
     let savedLivePixelsButton = document.getElementById("savedLivePixels");
@@ -61,7 +61,7 @@ function toggleCanvasPixel(event, canvas, pixels) {
     let pixel_index = y_element * WIDTH_PIXELS + x_element;
     let pixel = pixels[pixel_index];
     pixel.isAlive = !pixel.isAlive;
-    pixel.toggle();
+    pixel.toggle(canvas.getContext("2d")); // this is sloppy and I hate it.
 }
 
 function canvasDrawingTest(canvasContext, pixels) {
@@ -74,67 +74,67 @@ function canvasDrawingTest(canvasContext, pixels) {
     pixels[0].isAlive = ! pixels[0].isAlive;
 }
 
-function drawingTest(canvas_context, pixels) {
-    clearPixels(pixels);
-    initializeGrid(canvas_context);
+function drawingTest(canvasContext, pixels) {
+    clearPixels(canvasContext, pixels);
+    initializeGrid(canvasContext);
     pixels.forEach((pixel) => {
         if(pixel.bothSame()) {
             pixel.isAlive = true;
-            pixel.toggle();
+            pixel.toggle(canvasContext);
         }
     });
 }
 
-function switchTest(canvas_context, pixels) {
-    clearPixels(pixels);
-    initializeGrid(canvas_context);
+function switchTest(canvasContext, pixels) {
+    clearPixels(canvasContext, pixels);
+    initializeGrid(canvasContext);
     pixels.forEach((pixel) => {
         if(pixel.bothDifferent()) {
             pixel.isAlive = true;
-            pixel.toggle();
+            pixel.toggle(canvasContext);
         }
     });
 }
 
-function initializeGrid(canvas_context) {
+function initializeGrid(canvasContext) {
     let counter = 0;
     while (counter < MAX_WIDTH) {
         counter += PIXEL_SIZE;
-        canvas_context.moveTo(counter, 0);
-        canvas_context.lineTo(counter, MAX_HEIGHT);
-        canvas_context.stroke();
+        canvasContext.moveTo(counter, 0);
+        canvasContext.lineTo(counter, MAX_HEIGHT);
+        canvasContext.stroke();
     }
 
     counter = 0;
 
     while (counter < MAX_HEIGHT) {
         counter += PIXEL_SIZE;
-        canvas_context.moveTo(0, counter);
-        canvas_context.lineTo(MAX_WIDTH, counter);
-        canvas_context.stroke();
+        canvasContext.moveTo(0, counter);
+        canvasContext.lineTo(MAX_WIDTH, counter);
+        canvasContext.stroke();
     }
 }
 
-function initializePixels(canvas_context, pixels) {
+function initializePixels(pixels) {
     for (let height = 0; height < HEIGHT_PIXELS; height++) {
         for(let width = 0; width < WIDTH_PIXELS; width++) {
-            var pixel = new Pixel(canvas_context, height, width);
+            var pixel = new Pixel(height, width);
             pixels.push(pixel);
         }
     }
 }
 
-function clearPixels(pixels) {
+function clearPixels(context, pixels) {
     pixels.forEach((pixel) => {
         pixel.isAlive = false;
-        pixel.toggle();
+        pixel.toggle(context);
     });
 }
 
 function savePosition(currentPixels) {
     let savedPixels = [];
     currentPixels.forEach((pixel) => {
-        let newPixel = new Pixel(pixel.context, pixel.y, pixel.x, pixel.isAlive);
+        let newPixel = new Pixel(pixel.y, pixel.x, pixel.isAlive);
         savedPixels.push(newPixel);
     });
 
@@ -152,9 +152,9 @@ function getLivePixels(pixels, isStarting = false) {
     return livePixels;
 }
 
-function restorePosition(savedPixels) {
+function restorePosition(context, savedPixels) {
     savedPixels.forEach((pixel) => {
-        pixel.toggle();
+        pixel.toggle(context);
     });
 }
 
