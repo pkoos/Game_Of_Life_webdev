@@ -18,14 +18,9 @@ function loadJavaScript(event) {
         toggleCanvasPixel(event, canvas, pixels);
     });
 
-    let drawButton = document.getElementById("drawButton");
-    drawButton.addEventListener("click", () => {
-        drawingTest(canvas_context, pixels);
-    });
-
-    let switchButton = document.getElementById("switchButton");
-    switchButton.addEventListener("click", () => {
-        switchTest(canvas_context, pixels);
+    let canvasTest = document.getElementById("canvasTest");
+    canvasTest.addEventListener("click", () => {
+        canvasDrawingTest(canvas_context, pixels);
     });
 
     let clearButton = document.getElementById("clearButton");
@@ -67,11 +62,21 @@ function toggleCanvasPixel(event, canvas, pixels) {
     pixel.toggle();
 }
 
+function canvasDrawingTest(canvasContext, pixels) {
+    if(pixels[0].isAlive) {
+        drawingTest(canvasContext, pixels);
+    }
+    else {
+        switchTest(canvasContext, pixels);
+    }
+    pixels[0].isAlive = ! pixels[0].isAlive;
+}
+
 function drawingTest(canvas_context, pixels) {
     clearPixels(pixels);
     initializeGrid(canvas_context);
     pixels.forEach((pixel) => {
-        if(pixel.bothAreEven() || pixel.bothAreOdd()) {
+        if(pixel.bothSame()) {
             pixel.isAlive = true;
             pixel.toggle();
         }
@@ -82,7 +87,7 @@ function switchTest(canvas_context, pixels) {
     clearPixels(pixels);
     initializeGrid(canvas_context);
     pixels.forEach((pixel) => {
-        if(pixel.onlyWidthEven() || pixel.onlyHeightEven()) {
+        if(pixel.bothDifferent()) {
             pixel.isAlive = true;
             pixel.toggle();
         }

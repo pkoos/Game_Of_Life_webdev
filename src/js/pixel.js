@@ -12,39 +12,25 @@ class Pixel {
         this.isAlive = isAlive;
     }
 
-    draw() {
-        this.context.fillRect(this.canvas_x, this.canvas_y, PIXEL_SIZE, PIXEL_SIZE);
-    }
-
-    clear() {
-        this.context.clearRect(this.canvas_x, this.canvas_y, PIXEL_SIZE, PIXEL_SIZE);
-    }
-
     toggle() {
         if(this.isAlive) {
-            this.draw();
+            this.context.fillRect(this.canvas_x, this.canvas_y, PIXEL_SIZE, PIXEL_SIZE);
         }
         else {
-            this.clear();
+            this.context.clearRect(this.canvas_x, this.canvas_y, PIXEL_SIZE, PIXEL_SIZE);
             this.context.strokeRect(this.canvas_x, this.canvas_y, PIXEL_SIZE, PIXEL_SIZE);
         }
     }
 
-    bothAreEven() {
-        return this.canvas_x % 2 == 0 && this.canvas_y % 2 == 0;
-    }
-    
-    bothAreOdd() {
-        return this.canvas_x % 2 == 1 && this.canvas_y % 2 == 1;
+    bothSame() {
+        return this.canvas_x % 2 === this.canvas_y % 2;
     }
 
-    onlyHeightEven() {
-        return this.canvas_x % 2 == 0 && this.canvas_y % 2 == 1;
+    bothDifferent() {
+        return this.canvas_x % 2 !== this.canvas_y % 2;
     }
 
-    onlyWidthEven() {
-        return this.canvas_x % 2 == 1 && this.canvas_y % 2 == 0;
-    }
+
 }
 
 export { Pixel };
