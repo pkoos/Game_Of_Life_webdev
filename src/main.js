@@ -1,4 +1,4 @@
-import { MAX_WIDTH, MAX_HEIGHT, PIXEL_SIZE, WIDTH_PIXELS, DEFAULT_SHAPE_OBJECTS } from "./js/constants.js";
+import { MAX_WIDTH, MAX_HEIGHT } from "./js/constants.js";
 import { Canvas } from "./js/canvas.js";
 
 /*
@@ -7,19 +7,15 @@ import { Canvas } from "./js/canvas.js";
 
 function loadJavaScript() {
     
-    let pixels = [];
-    let savedPixels = [];
-    let canvas = document.getElementById("CGoL_Board");
-    let canvasContext = canvas.getContext("2d");
-    let jsCanvas = new Canvas(MAX_HEIGHT, MAX_WIDTH, canvas, canvasContext);
+    let jsCanvas = new Canvas(
+        MAX_HEIGHT, MAX_WIDTH, 
+        document.getElementById("CGoL_Board"), 
+        document.getElementById("CGoL_Board").getContext("2d"));
 
     jsCanvas.grid();
     jsCanvas.initializePixels();
     
-    pixels = jsCanvas.pixels;
-
-
-    canvas.addEventListener("click", (event) => {
+    document.getElementById("CGoL_Board").addEventListener("click", (event) => {
         jsCanvas.toggle(event);
     });
 
@@ -30,12 +26,12 @@ function loadJavaScript() {
 
     let clearButton = document.getElementById("clearButton");
     clearButton.addEventListener("click", () => {
-        jsCanvas.clear(canvasContext, pixels);
+        jsCanvas.clear();
     });
 
     let savePositionButton = document.getElementById("savePosition");
     savePositionButton.addEventListener("click", () => {
-        savedPixels = jsCanvas.save();
+        jsCanvas.save();
     });
 
     let restorePositionButton = document.getElementById("restorePosition");

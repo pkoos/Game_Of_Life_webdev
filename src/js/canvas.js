@@ -23,7 +23,6 @@ class Canvas {
         });
     }
 
-
     defaultShapesHandlers() {
         DEFAULT_SHAPE_OBJECTS.forEach((shape) => {
             let button = document.getElementById(`shape${shape.name}`);
@@ -82,7 +81,11 @@ class Canvas {
     }
 
     restore() {
-        this.pixels = this.savedPixels;
+        this.pixels = [];
+        this.savedPixels.forEach((pixel) => {
+            let savedPixel = new Pixel(pixel.y, pixel.x, pixel.isAlive);
+            this.pixels.push(savedPixel);
+        });
         this.draw();
     }
 
@@ -90,16 +93,6 @@ class Canvas {
         this.pixels.forEach((pixel) => {
             let savedPixel = new Pixel(pixel.y, pixel.x, pixel.isAlive);
             this.savedPixels.push(savedPixel);
-        });
-    }
-
-    swap(savedToCurrent) {
-        let srcPixels = savedToCurrent ? this.savedPixels : this.pixels;
-        let dstPixels = savedToCurrent ? this.pixels : this.savedPixels;
-
-        srcPixels.forEach((pixel, index) => {
-            let savedPixel = new Pixel(pixel.y, pixel.x, pixel.isAlive);
-            dstPixels[index] = savedPixel;
         });
     }
 
