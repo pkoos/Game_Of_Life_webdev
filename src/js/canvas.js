@@ -16,22 +16,22 @@ class Canvas {
         Public functions - most of these are for click handlers
     */
 
-    clearPixels() {
+    clear() {
         this.pixels.forEach((pixel) => {
             pixel.isAlive = false;
             pixel.toggle(this.context);
         });
     }
 
-    // TODO: Make this work with the existing pixels grid.
+
     defaultShapesHandlers() {
         DEFAULT_SHAPE_OBJECTS.forEach((shape) => {
             let button = document.getElementById(`shape${shape.name}`);
             button.addEventListener("click", () => {
                 console.log(`${shape.name} clicked`);
-                this.clearPixels();
+                this.clear();
                 this.#shapeHandler(shape);
-                shape.draw(this.context);
+                this.draw();
             });
         });
     }
@@ -131,7 +131,7 @@ class Canvas {
         Private Functions - for use only in other functions
     */
     #drawingTest() {
-        this.clearPixels();
+        this.clear();
         this.grid();
         this.pixels.forEach((pixel) => {
             if(pixel.bothSame()) {
@@ -150,7 +150,7 @@ class Canvas {
     }
 
     #switchTest() {
-        this.clearPixels();
+        this.clear();
         this.grid();
         this.pixels.forEach((pixel) => {
             if(pixel.bothDifferent()) {

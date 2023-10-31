@@ -30,7 +30,7 @@ function loadJavaScript() {
 
     let clearButton = document.getElementById("clearButton");
     clearButton.addEventListener("click", () => {
-        jsCanvas.clearPixels(canvasContext, pixels);
+        jsCanvas.clear(canvasContext, pixels);
     });
 
     let savePositionButton = document.getElementById("savePosition");
