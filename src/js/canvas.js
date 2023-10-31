@@ -7,6 +7,7 @@ class Canvas {
         this.width = width;
         this.context = context;
         this.pixels = [];
+        this.savedPixels = [];
     }
 
     grid() {
@@ -76,12 +77,30 @@ class Canvas {
         });
     }
 
-    savePosition() {
-
+    save() {
+        this.pixels.forEach((pixel) => {
+            let savedPixel = new Pixel(pixel.y, pixel.x, pixel.isAlive);
+            this.savedPixels.push(savedPixel);
+        });
     }
 
-    restorePosition() {
+    // this doesn't do anything with the actual pixels in the pixels collection,
+    // and it probably should
+    restore() {
+        this.savedPixels.forEach((pixel) => {
+            pixel.toggle(this.context);
+        });
+    }
 
+    livePixels(saved = false) {
+        let livePixels = [];
+        let pixels = saved ? this.savedPixels : this.pixels;
+        pixels.forEach((pixel) => {
+                if(pixel.isAlive) {
+                    livePixels.push(pixel);
+                }
+            });
+        return livePixels;
     }
 }
 

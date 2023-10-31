@@ -1,5 +1,4 @@
-import { MAX_WIDTH, MAX_HEIGHT, PIXEL_SIZE, WIDTH_PIXELS, HEIGHT_PIXELS, DEFAULT_SHAPE_OBJECTS } from "./js/constants.js";
-import { Pixel} from "./js/pixel.js";
+import { MAX_WIDTH, MAX_HEIGHT, PIXEL_SIZE, WIDTH_PIXELS, DEFAULT_SHAPE_OBJECTS } from "./js/constants.js";
 import { Canvas } from "./js/canvas.js";
 
 /*
@@ -16,10 +15,8 @@ function loadJavaScript() {
 
     jsCanvas.grid();
     jsCanvas.initializePixels();
-    console.log(jsCanvas.pixels);
     
     pixels = jsCanvas.pixels;
-    console.log(pixels);
 
 
     canvas.addEventListener("click", (event) => {
@@ -28,9 +25,7 @@ function loadJavaScript() {
 
     let canvasTest = document.getElementById("canvasTest");
     canvasTest.addEventListener("click", () => {
-        console.log("Canvas Test Clicked");
         jsCanvas.test();
-        // canvasDrawingTest(canvasContext, pixels);
     });
 
     let clearButton = document.getElementById("clearButton");
@@ -40,22 +35,23 @@ function loadJavaScript() {
 
     let savePositionButton = document.getElementById("savePosition");
     savePositionButton.addEventListener("click", () => {
-        savedPixels = savePosition(pixels);
+        savedPixels = jsCanvas.save();
     });
 
     let restorePositionButton = document.getElementById("restorePosition");
     restorePositionButton.addEventListener("click", () => {
-        restorePosition(canvasContext, savedPixels);
+        jsCanvas.restore();
     });
 
     let savedLivePixelsButton = document.getElementById("savedLivePixels");
     savedLivePixelsButton.addEventListener("click", () => {
-        console.log(getLivePixels(savedPixels, false));
+        console.log(jsCanvas.livePixels(true));
+
     });
 
     let currentLivePixelsButton = document.getElementById("currentLivePixels");
     currentLivePixelsButton.addEventListener("click", () => {
-        console.log(getLivePixels(pixels, true));
+        console.log(jsCanvas.livePixels());
     });
 
     shapesClickHandlers(canvasContext, pixels);
@@ -72,33 +68,6 @@ function toggleCanvasPixel(event, canvas, pixels) {
     let pixel = pixels[pixel_index];
     pixel.isAlive = !pixel.isAlive;
     pixel.toggle(canvas.getContext("2d")); // this is sloppy and I hate it.
-}
-
-function savePosition(currentPixels) {
-    let savedPixels = [];
-    currentPixels.forEach((pixel) => {
-        let newPixel = new Pixel(pixel.y, pixel.x, pixel.isAlive);
-        savedPixels.push(newPixel);
-    });
-
-    return savedPixels;
-}
-
-function getLivePixels(pixels, isStarting = false) {
-    var livePixels = [];
-    pixels.forEach((pixel) => {
-        if(pixel.isAlive) {
-            livePixels.push(pixel);
-        }
-    });
-
-    return livePixels;
-}
-
-function restorePosition(context, savedPixels) {
-    savedPixels.forEach((pixel) => {
-        pixel.toggle(context);
-    });
 }
 
 function shapesClickHandlers(context, pixels) {
