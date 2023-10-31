@@ -1,6 +1,6 @@
 import { MAX_WIDTH, MAX_HEIGHT } from "./js/constants.js";
 import { Canvas } from "./js/canvas.js";
-import { LifeRules } from "./js/gameoflife.js";
+import { LifeRules } from "./js/rules.js";
 
 /*
     Button Handlers
