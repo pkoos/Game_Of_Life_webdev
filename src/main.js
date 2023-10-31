@@ -15,7 +15,13 @@ function loadJavaScript() {
     let jsCanvas = new Canvas(MAX_HEIGHT, MAX_WIDTH, canvasContext);
 
     jsCanvas.grid();
-    initializePixels(pixels);
+    jsCanvas.initializePixels();
+    console.log(jsCanvas.pixels);
+    
+    pixels = jsCanvas.pixels;
+    console.log(pixels);
+    
+    // initializePixels(pixels);
     // initializeGrid(canvasContext);
 
     canvas.addEventListener("click", (event) => {
@@ -119,14 +125,14 @@ function switchTest(canvasContext, pixels) {
 //     }
 // }
 
-function initializePixels(pixels) {
-    for (let height = 0; height < HEIGHT_PIXELS; height++) {
-        for(let width = 0; width < WIDTH_PIXELS; width++) {
-            var pixel = new Pixel(height, width);
-            pixels.push(pixel);
-        }
-    }
-}
+// function initializePixels(pixels) {
+//     for (let height = 0; height < HEIGHT_PIXELS; height++) {
+//         for(let width = 0; width < WIDTH_PIXELS; width++) {
+//             var pixel = new Pixel(height, width);
+//             pixels.push(pixel);
+//         }
+//     }
+// }
 
 function clearPixels(context, pixels) {
     pixels.forEach((pixel) => {
