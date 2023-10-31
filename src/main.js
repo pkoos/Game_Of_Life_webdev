@@ -1,18 +1,22 @@
 import { MAX_WIDTH, MAX_HEIGHT, PIXEL_SIZE, WIDTH_PIXELS, HEIGHT_PIXELS, DEFAULT_SHAPE_OBJECTS } from "./js/constants.js";
 import { Pixel} from "./js/pixel.js";
+import { Canvas } from "./js/canvas.js";
 
 /*
     Button Handlers
 */
 
 function loadJavaScript() {
+    
     let pixels = [];
     let savedPixels = [];
     let canvas = document.getElementById("CGoL_Board");
     let canvasContext = canvas.getContext("2d");
+    let jsCanvas = new Canvas(MAX_HEIGHT, MAX_WIDTH, canvasContext);
 
+    jsCanvas.grid();
     initializePixels(pixels);
-    initializeGrid(canvasContext);
+    // initializeGrid(canvasContext);
 
     canvas.addEventListener("click", (event) => {
         toggleCanvasPixel(event, canvas, pixels);
@@ -96,24 +100,24 @@ function switchTest(canvasContext, pixels) {
     });
 }
 
-function initializeGrid(canvasContext) {
-    let counter = 0;
-    while (counter < MAX_WIDTH) {
-        counter += PIXEL_SIZE;
-        canvasContext.moveTo(counter, 0);
-        canvasContext.lineTo(counter, MAX_HEIGHT);
-        canvasContext.stroke();
-    }
+// function initializeGrid(canvasContext) {
+//     let counter = 0;
+//     while (counter < MAX_WIDTH) {
+//         counter += PIXEL_SIZE;
+//         canvasContext.moveTo(counter, 0);
+//         canvasContext.lineTo(counter, MAX_HEIGHT);
+//         canvasContext.stroke();
+//     }
 
-    counter = 0;
+//     counter = 0;
 
-    while (counter < MAX_HEIGHT) {
-        counter += PIXEL_SIZE;
-        canvasContext.moveTo(0, counter);
-        canvasContext.lineTo(MAX_WIDTH, counter);
-        canvasContext.stroke();
-    }
-}
+//     while (counter < MAX_HEIGHT) {
+//         counter += PIXEL_SIZE;
+//         canvasContext.moveTo(0, counter);
+//         canvasContext.lineTo(MAX_WIDTH, counter);
+//         canvasContext.stroke();
+//     }
+// }
 
 function initializePixels(pixels) {
     for (let height = 0; height < HEIGHT_PIXELS; height++) {
