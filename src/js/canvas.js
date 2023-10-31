@@ -15,11 +15,31 @@ class Canvas {
     /*
         Public functions - most of these are for click handlers
     */
+
     clearPixels() {
         this.pixels.forEach((pixel) => {
             pixel.isAlive = false;
             pixel.toggle(this.context);
         });
+    }
+
+    // TODO: Make this work with the existing pixels grid.
+    defaultShapesHandlers() {
+        DEFAULT_SHAPE_OBJECTS.forEach((shape) => {
+            let button = document.getElementById(`shape${shape.name}`);
+            button.addEventListener("click", () => {
+                console.log(`${shape.name} clicked`);
+                this.clearPixels();
+                this.#shapeHandler(shape);
+                shape.draw(this.context);
+            });
+        });
+    }
+
+    draw() {
+        this.pixels.forEach((pixel) => {
+            pixel.toggle(this.context);
+        })
     }
 
     grid() {
@@ -61,12 +81,9 @@ class Canvas {
         return livePixels;
     }
 
-    // this doesn't do anything with the actual pixels in the pixels collection,
-    // and it probably should
     restore() {
-        this.savedPixels.forEach((pixel) => {
-            pixel.toggle(this.context);
-        });
+        this.pixels = this.savedPixels;
+        this.draw();
     }
 
     save() {
@@ -76,15 +93,13 @@ class Canvas {
         });
     }
 
-    // TODO: Make this work with the existing pixels grid.
-    defaultShapesHandlers() {
-        DEFAULT_SHAPE_OBJECTS.forEach((shape) => {
-            let button = document.getElementById(`shape${shape.name}`);
-            button.addEventListener("click", () => {
-                console.log(`${shape.name} clicked`);
-                this.clearPixels();
-                shape.draw(this.context);
-            });
+    swap(savedToCurrent) {
+        let srcPixels = savedToCurrent ? this.savedPixels : this.pixels;
+        let dstPixels = savedToCurrent ? this.pixels : this.savedPixels;
+
+        srcPixels.forEach((pixel, index) => {
+            let savedPixel = new Pixel(pixel.y, pixel.x, pixel.isAlive);
+            dstPixels[index] = savedPixel;
         });
     }
 
@@ -105,8 +120,8 @@ class Canvas {
         const xElement = Math.floor(canvasX / PIXEL_SIZE);
         const yElement = Math.floor(canvasY / PIXEL_SIZE);
 
-        let pixelIndex = yElement * WIDTH_PIXELS + xElement;
-        let pixel = this.pixels[pixelIndex];
+        const pixelIndex = yElement * WIDTH_PIXELS + xElement;
+        const pixel = this.pixels[pixelIndex];
 
         pixel.isAlive = !pixel.isAlive;
         pixel.toggle(this.context);
@@ -123,6 +138,14 @@ class Canvas {
                 pixel.isAlive = true;
                 pixel.toggle(this.context);    
             }
+        });
+    }
+    
+    #shapeHandler(shape) {
+        shape.pattern.forEach((shapePixel) => {
+            const index = shapePixel.y * WIDTH_PIXELS + shapePixel.x;
+            let pixel = this.pixels[index];
+            pixel.isAlive = shapePixel.isAlive;
         });
     }
 
