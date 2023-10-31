@@ -54,7 +54,7 @@ function loadJavaScript() {
         console.log(jsCanvas.livePixels());
     });
 
-    shapesClickHandlers(canvasContext, pixels);
+    jsCanvas.defaultShapesHandlers();
 }
 
 document.addEventListener("DOMContentLoaded", loadJavaScript);

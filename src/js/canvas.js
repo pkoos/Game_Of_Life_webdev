@@ -1,4 +1,4 @@
-import { HEIGHT_PIXELS, WIDTH_PIXELS, PIXEL_SIZE } from "./constants.js";
+import { DEFAULT_SHAPE_OBJECTS, HEIGHT_PIXELS, PIXEL_SIZE, WIDTH_PIXELS  } from "./constants.js";
 import { Pixel } from "./pixel.js";
 
 class Canvas {
@@ -73,6 +73,18 @@ class Canvas {
         this.pixels.forEach((pixel) => {
             let savedPixel = new Pixel(pixel.y, pixel.x, pixel.isAlive);
             this.savedPixels.push(savedPixel);
+        });
+    }
+
+    // TODO: Make this work with the existing pixels grid.
+    defaultShapesHandlers() {
+        DEFAULT_SHAPE_OBJECTS.forEach((shape) => {
+            let button = document.getElementById(`shape${shape.name}`);
+            button.addEventListener("click", () => {
+                console.log(`${shape.name} clicked`);
+                this.clearPixels();
+                shape.draw(this.context);
+            });
         });
     }
 
