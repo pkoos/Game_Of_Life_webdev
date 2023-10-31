@@ -20,9 +20,7 @@ function loadJavaScript() {
     
     pixels = jsCanvas.pixels;
     console.log(pixels);
-    
-    // initializePixels(pixels);
-    // initializeGrid(canvasContext);
+
 
     canvas.addEventListener("click", (event) => {
         toggleCanvasPixel(event, canvas, pixels);
@@ -30,12 +28,14 @@ function loadJavaScript() {
 
     let canvasTest = document.getElementById("canvasTest");
     canvasTest.addEventListener("click", () => {
-        canvasDrawingTest(canvasContext, pixels);
+        console.log("Canvas Test Clicked");
+        jsCanvas.test();
+        // canvasDrawingTest(canvasContext, pixels);
     });
 
     let clearButton = document.getElementById("clearButton");
     clearButton.addEventListener("click", () => {
-        clearPixels(canvasContext, pixels);
+        jsCanvas.clearPixels(canvasContext, pixels);
     });
 
     let savePositionButton = document.getElementById("savePosition");
@@ -74,73 +74,6 @@ function toggleCanvasPixel(event, canvas, pixels) {
     pixel.toggle(canvas.getContext("2d")); // this is sloppy and I hate it.
 }
 
-function canvasDrawingTest(canvasContext, pixels) {
-    if(pixels[0].isAlive) {
-        drawingTest(canvasContext, pixels);
-    }
-    else {
-        switchTest(canvasContext, pixels);
-    }
-    pixels[0].isAlive = ! pixels[0].isAlive;
-}
-
-function drawingTest(canvasContext, pixels) {
-    clearPixels(canvasContext, pixels);
-    initializeGrid(canvasContext);
-    pixels.forEach((pixel) => {
-        if(pixel.bothSame()) {
-            pixel.isAlive = true;
-            pixel.toggle(canvasContext);
-        }
-    });
-}
-
-function switchTest(canvasContext, pixels) {
-    clearPixels(canvasContext, pixels);
-    initializeGrid(canvasContext);
-    pixels.forEach((pixel) => {
-        if(pixel.bothDifferent()) {
-            pixel.isAlive = true;
-            pixel.toggle(canvasContext);
-        }
-    });
-}
-
-// function initializeGrid(canvasContext) {
-//     let counter = 0;
-//     while (counter < MAX_WIDTH) {
-//         counter += PIXEL_SIZE;
-//         canvasContext.moveTo(counter, 0);
-//         canvasContext.lineTo(counter, MAX_HEIGHT);
-//         canvasContext.stroke();
-//     }
-
-//     counter = 0;
-
-//     while (counter < MAX_HEIGHT) {
-//         counter += PIXEL_SIZE;
-//         canvasContext.moveTo(0, counter);
-//         canvasContext.lineTo(MAX_WIDTH, counter);
-//         canvasContext.stroke();
-//     }
-// }
-
-// function initializePixels(pixels) {
-//     for (let height = 0; height < HEIGHT_PIXELS; height++) {
-//         for(let width = 0; width < WIDTH_PIXELS; width++) {
-//             var pixel = new Pixel(height, width);
-//             pixels.push(pixel);
-//         }
-//     }
-// }
-
-function clearPixels(context, pixels) {
-    pixels.forEach((pixel) => {
-        pixel.isAlive = false;
-        pixel.toggle(context);
-    });
-}
-
 function savePosition(currentPixels) {
     let savedPixels = [];
     currentPixels.forEach((pixel) => {
@@ -173,7 +106,7 @@ function shapesClickHandlers(context, pixels) {
         let button = document.getElementById(`shape${shape.name}`);
         button.addEventListener("click", () => {
             console.log(`${shape.name} clicked`);
-            clearPixels(context, pixels);
+            jsCanvas.clearPixels(context, pixels);
             shape.draw(context);
         });
     });

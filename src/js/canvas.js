@@ -36,6 +36,53 @@ class Canvas {
             }
         }
     }
+
+    test() {
+        if(this.pixels[0].isAlive) {
+            this.#drawingTest();
+        }
+        else {
+            this.#switchTest();
+        }
+        this.pixels[0].isAlive = !this.pixels[0].isAlive;
+    }
+
+    #drawingTest() {
+        this.clearPixels();
+        this.grid();
+        this.pixels.forEach((pixel) => {
+            if(pixel.bothSame()) {
+                pixel.isAlive = true;
+                pixel.toggle(this.context);    
+            }
+        });
+    }
+
+    #switchTest() {
+        this.clearPixels();
+        this.grid();
+        this.pixels.forEach((pixel) => {
+            if(pixel.bothDifferent()) {
+                pixel.isAlive = true;
+                pixel.toggle(this.context);
+            }
+        });
+    }
+
+    clearPixels() {
+        this.pixels.forEach((pixel) => {
+            pixel.isAlive = false;
+            pixel.toggle(this.context);
+        });
+    }
+
+    savePosition() {
+
+    }
+
+    restorePosition() {
+
+    }
 }
 
 export { Canvas };
