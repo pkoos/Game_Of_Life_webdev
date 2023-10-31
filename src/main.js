@@ -1,5 +1,6 @@
 import { MAX_WIDTH, MAX_HEIGHT } from "./js/constants.js";
 import { Canvas } from "./js/canvas.js";
+import { LifeRules } from "./js/gameoflife.js";
 
 /*
     Button Handlers
@@ -39,10 +40,19 @@ function loadJavaScript() {
         jsCanvas.restore();
     });
 
+    let nextGenerationButton = document.getElementById("nextGeneration");
+    nextGenerationButton.addEventListener("click", (event) => {
+        let rules = new LifeRules(jsCanvas.pixels);
+        let nextBoard = rules.testGenerate();
+
+        nextBoard.forEach((pixel) => {
+            pixel.toggle(jsCanvas.context);
+        })
+    });
+
     let savedLivePixelsButton = document.getElementById("savedLivePixels");
     savedLivePixelsButton.addEventListener("click", () => {
         console.log(jsCanvas.livePixels(true));
-
     });
 
     let currentLivePixelsButton = document.getElementById("currentLivePixels");
