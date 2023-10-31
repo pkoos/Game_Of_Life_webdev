@@ -2,12 +2,24 @@ import { HEIGHT_PIXELS, WIDTH_PIXELS, PIXEL_SIZE } from "./constants.js";
 import { Pixel } from "./pixel.js";
 
 class Canvas {
-    constructor(height, width, context) {
+
+    constructor(height, width, canvas, context) {
         this.height = height;
         this.width = width;
+        this.canvas = canvas;
         this.context = context;
         this.pixels = [];
         this.savedPixels = [];
+    }
+
+    /*
+        Public functions - most of these are for click handlers
+    */
+    clearPixels() {
+        this.pixels.forEach((pixel) => {
+            pixel.isAlive = false;
+            pixel.toggle(this.context);
+        });
     }
 
     grid() {
@@ -37,6 +49,32 @@ class Canvas {
             }
         }
     }
+    
+    livePixels(saved = false) {
+        let livePixels = [];
+        let pixels = saved ? this.savedPixels : this.pixels;
+        pixels.forEach((pixel) => {
+                if(pixel.isAlive) {
+                    livePixels.push(pixel);
+                }
+            });
+        return livePixels;
+    }
+
+    // this doesn't do anything with the actual pixels in the pixels collection,
+    // and it probably should
+    restore() {
+        this.savedPixels.forEach((pixel) => {
+            pixel.toggle(this.context);
+        });
+    }
+
+    save() {
+        this.pixels.forEach((pixel) => {
+            let savedPixel = new Pixel(pixel.y, pixel.x, pixel.isAlive);
+            this.savedPixels.push(savedPixel);
+        });
+    }
 
     test() {
         if(this.pixels[0].isAlive) {
@@ -48,6 +86,23 @@ class Canvas {
         this.pixels[0].isAlive = !this.pixels[0].isAlive;
     }
 
+    toggle(event) {
+        const canvasX = event.pageX - this.canvas.offsetLeft;
+        const canvasY = event.pageY - this.canvas.offsetTop;
+
+        const xElement = Math.floor(canvasX / PIXEL_SIZE);
+        const yElement = Math.floor(canvasY / PIXEL_SIZE);
+
+        let pixelIndex = yElement * WIDTH_PIXELS + xElement;
+        let pixel = this.pixels[pixelIndex];
+
+        pixel.isAlive = !pixel.isAlive;
+        pixel.toggle(this.context);
+    }
+
+    /*
+        Private Functions - for use only in other functions
+    */
     #drawingTest() {
         this.clearPixels();
         this.grid();
@@ -68,39 +123,6 @@ class Canvas {
                 pixel.toggle(this.context);
             }
         });
-    }
-
-    clearPixels() {
-        this.pixels.forEach((pixel) => {
-            pixel.isAlive = false;
-            pixel.toggle(this.context);
-        });
-    }
-
-    save() {
-        this.pixels.forEach((pixel) => {
-            let savedPixel = new Pixel(pixel.y, pixel.x, pixel.isAlive);
-            this.savedPixels.push(savedPixel);
-        });
-    }
-
-    // this doesn't do anything with the actual pixels in the pixels collection,
-    // and it probably should
-    restore() {
-        this.savedPixels.forEach((pixel) => {
-            pixel.toggle(this.context);
-        });
-    }
-
-    livePixels(saved = false) {
-        let livePixels = [];
-        let pixels = saved ? this.savedPixels : this.pixels;
-        pixels.forEach((pixel) => {
-                if(pixel.isAlive) {
-                    livePixels.push(pixel);
-                }
-            });
-        return livePixels;
     }
 }
 

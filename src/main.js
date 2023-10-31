@@ -11,7 +11,7 @@ function loadJavaScript() {
     let savedPixels = [];
     let canvas = document.getElementById("CGoL_Board");
     let canvasContext = canvas.getContext("2d");
-    let jsCanvas = new Canvas(MAX_HEIGHT, MAX_WIDTH, canvasContext);
+    let jsCanvas = new Canvas(MAX_HEIGHT, MAX_WIDTH, canvas, canvasContext);
 
     jsCanvas.grid();
     jsCanvas.initializePixels();
@@ -20,7 +20,7 @@ function loadJavaScript() {
 
 
     canvas.addEventListener("click", (event) => {
-        toggleCanvasPixel(event, canvas, pixels);
+        jsCanvas.toggle(event);
     });
 
     let canvasTest = document.getElementById("canvasTest");
@@ -55,30 +55,6 @@ function loadJavaScript() {
     });
 
     shapesClickHandlers(canvasContext, pixels);
-}
-
-function toggleCanvasPixel(event, canvas, pixels) {
-    let canvas_x = event.pageX - canvas.offsetLeft;
-    let canvas_y = event.pageY - canvas.offsetTop;
-
-    let x_element = Math.floor(canvas_x / PIXEL_SIZE);
-    let y_element = Math.floor(canvas_y / PIXEL_SIZE);
-
-    let pixel_index = y_element * WIDTH_PIXELS + x_element;
-    let pixel = pixels[pixel_index];
-    pixel.isAlive = !pixel.isAlive;
-    pixel.toggle(canvas.getContext("2d")); // this is sloppy and I hate it.
-}
-
-function shapesClickHandlers(context, pixels) {
-    DEFAULT_SHAPE_OBJECTS.forEach((shape) => {
-        let button = document.getElementById(`shape${shape.name}`);
-        button.addEventListener("click", () => {
-            console.log(`${shape.name} clicked`);
-            jsCanvas.clearPixels(context, pixels);
-            shape.draw(context);
-        });
-    });
 }
 
 document.addEventListener("DOMContentLoaded", loadJavaScript);
