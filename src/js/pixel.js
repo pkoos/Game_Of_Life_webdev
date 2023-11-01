@@ -19,11 +19,11 @@ class Pixel {
     }
 
     bothSame() {
-        return (this.x * PIXEL_SIZE) % 2 === (this.y * PIXEL_SIZE) % 2;
+        return (this.x) % 2 === (this.y) % 2;
     }
 
     bothDifferent() {
-        return (this.x * PIXEL_SIZE) % 2 !== (this.y * PIXEL_SIZE) % 2;
+        return (this.x) % 2 !== (this.y) % 2;
     }
 }
 
