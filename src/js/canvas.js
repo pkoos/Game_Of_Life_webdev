@@ -97,6 +97,11 @@ class Canvas {
         let nextGen = this.blankPixels();
         let rules = new LifeRules(this.pixels, nextGen);
         rules.testGenerate2();
+
+        this.clear();
+        this.grid();
+        this.pixels = rules.next;
+        this.draw();
     }
 
     restore() {
