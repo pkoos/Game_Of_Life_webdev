@@ -3,32 +3,40 @@ import { Neighbor } from "./neighbors.js";
 import { Pixel } from "./pixel.js";
 
 class LifeRules {
-    constructor(pixels) {
-        this.pixels = pixels;
-        this.next = [];
+    constructor(current, next = []) {
+        this.current = current;
+        this.next = next;
     }
 
     testGenerate() {
         let nextGeneration = [];
-        this.pixels.forEach((pixel) => {
-            let savedPixel = new Pixel(pixel.y, pixel.x, pixel.isAlive);
+        this.current.forEach((pixel) => {
+            let savedPixel = new Pixel(pixel.y, pixel.x, false);
             nextGeneration.push(savedPixel);
         });
         // this.pixels.forEach((pixel) => {
             // let neighbors = this.#getNeighbors(pixel);
-        let neighbor1 = new Neighbor(this.#getNeighbors(nextGeneration[0]));
-        this.determineState(nextGeneration[0], neighbor1);
-        let neighbor2 = new Neighbor(this.#getNeighbors(nextGeneration[46]));
-        this.determineState(nextGeneration[46], neighbor2);
-        let neighbor3 = new Neighbor(this.#getNeighbors(nextGeneration[47]));
-        this.determineState(nextGeneration[47], neighbor3);
-        let neighbor4 = new Neighbor(this.#getNeighbors(nextGeneration[48]));
-        this.determineState(nextGeneration[48], neighbor4);
-        let neighbor5 = new Neighbor(this.#getNeighbors(nextGeneration[49]));
-        this.determineState(nextGeneration[49], neighbor5);
+        nextGeneration.forEach((pixel) => {
+            let neighbor = new Neighbor(this.#getNeighbors(pixel));
+            this.determineState(pixel, neighbor);
+        })
+        // let neighbor1 = new Neighbor(this.#getNeighbors(nextGeneration[0]));
+        // this.determineState(nextGeneration[0], neighbor1);
+        // let neighbor2 = new Neighbor(this.#getNeighbors(nextGeneration[46]));
+        // this.determineState(nextGeneration[46], neighbor2);
+        // let neighbor3 = new Neighbor(this.#getNeighbors(nextGeneration[47]));
+        // this.determineState(nextGeneration[47], neighbor3);
+        // let neighbor4 = new Neighbor(this.#getNeighbors(nextGeneration[48]));
+        // this.determineState(nextGeneration[48], neighbor4);
+        // let neighbor5 = new Neighbor(this.#getNeighbors(nextGeneration[49]));
+        // this.determineState(nextGeneration[49], neighbor5);
         // });
         console.log(nextGeneration);
         return nextGeneration;
+    }
+
+    testGenerate2() {
+        let neighbors = this.#getNeighbors()
     }
 
     invalidNeighbor(x, y, pixel) {
@@ -75,7 +83,7 @@ class LifeRules {
             }
             let neighborIndex = currY * WIDTH_PIXELS + currX;
 
-            neighbors.push(this.pixels[neighborIndex]);
+            neighbors.push(this.current[neighborIndex]);
         }
         // console.log(neighbors);
         return neighbors;

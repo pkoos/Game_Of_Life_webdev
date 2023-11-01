@@ -60,6 +60,17 @@ class Canvas {
         }
     }
 
+    blankPixels() {
+        let blankPixels = [];
+        for (let height = 0; height < HEIGHT_PIXELS; height++) {
+            for(let width = 0; width < WIDTH_PIXELS; width++) {
+                var pixel = new Pixel(height, width);
+                blankPixels.push(pixel);
+            }
+        }
+        return blankPixels;
+    }
+
     initializePixels() {
         for (let height = 0; height < HEIGHT_PIXELS; height++) {
             for(let width = 0; width < WIDTH_PIXELS; width++) {

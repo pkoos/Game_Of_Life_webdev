@@ -1,6 +1,5 @@
 class Neighbor {
     constructor(neighbors) {
-        // console.log("Neighbors information constructor");
         this.neighbors = neighbors;
         this.live = this.liveNeighbors();
 

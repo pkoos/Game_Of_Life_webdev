@@ -1,9 +1,13 @@
 import { Shape } from "./shape.js";
 import { Pixel } from "./pixel.js";
 
-const MAX_WIDTH = 1200;
-const MAX_HEIGHT = 800;
-const PIXEL_SIZE = 25;
+// const MAX_WIDTH = 1200;
+const MAX_WIDTH = 600;
+// const MAX_HEIGHT = 800;
+const MAX_HEIGHT = 400;
+// const PIXEL_SIZE = 25;
+// const PIXEL_SIZE = 200;
+const PIXEL_SIZE = 100;
 const WIDTH_PIXELS = MAX_WIDTH / PIXEL_SIZE;
 const HEIGHT_PIXELS = MAX_HEIGHT / PIXEL_SIZE;
 
