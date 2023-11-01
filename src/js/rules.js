@@ -8,29 +8,16 @@ class LifeRules {
         this.next = next;
     }
 
-    testGenerate() {
-        let nextGeneration = [];
-        this.current.forEach((pixel) => {
-            let savedPixel = new Cell(pixel.y, pixel.x, false);
-            nextGeneration.push(savedPixel);
-        });
-        nextGeneration.forEach((pixel) => {
-            let neighbor = new Neighbor(this.#getNeighbors(pixel));
-            this.determineState(pixel, neighbor);
-        })
-        console.log(nextGeneration);
-        return nextGeneration;
-    }
-
-    testGenerate2() {
+    generate() {
         this.current.forEach((cell, index) => {
             cell.live = this.getLiveNeighborsAmount(cell);
 
-            this.next[index].isAlive = this.determineState2(cell);
+            this.next[index].isAlive = this.determineState(cell);
         });
     }
 
-    determineState2(cell) {
+    //TODO: This function feels super clunky, see if you can make it better.
+    determineState(cell) {
         let willLive;
 
         if(cell.isAlive) {
@@ -85,6 +72,7 @@ class LifeRules {
         return pixel.x === x && pixel.y === y;
     }
 
+    // I don't like #getNeighbors, can it be combined with the function below?
     #getNeighbors(pixel) {
         var neighbors = [];
         const MAX_NEIGHBORS = 8;
@@ -103,6 +91,7 @@ class LifeRules {
         return neighbors;
     }
 
+    // TODO: I don't like getLiveNeighborsAmount, can it be combined with the function above?
     getLiveNeighborsAmount(cell) {
         let neighbors = this.#getNeighbors(cell);
         let live = 0;
@@ -113,19 +102,6 @@ class LifeRules {
         });
 
         return live;
-    }
-
-    determineState(pixel, neighbor) {
-        if(pixel.isAlive) {
-            if(neighbor.live < 2 || neighbor.live > 3) { 
-                pixel.isAlive = false;
-            }
-        }
-        else {
-            if(neighbor.live == 3) {
-                pixel.isAlive = true;
-            }
-        }
     }
 }
 

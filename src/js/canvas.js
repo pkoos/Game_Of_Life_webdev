@@ -1,28 +1,52 @@
-import { DEFAULT_SHAPE_OBJECTS, HEIGHT_PIXELS, PIXEL_SIZE, WIDTH_PIXELS, FALLBACK_LIMIT  } from "./constants.js";
+import { 
+    DEFAULT_SHAPE_OBJECTS, HEIGHT_PIXELS, PIXEL_SIZE, WIDTH_PIXELS, 
+    FALLBACK_LIMIT, MAX_HEIGHT, MAX_WIDTH } from "./constants.js";
 import { Cell } from "./cell.js";
 import { LifeRules } from "./rules.js";
 import { sleep } from '../main.js';
 
 class Canvas {
 
-    constructor(height, width, canvas, context) {
-        this.height = height;
-        this.width = width;
+    #numGens;
+    #cells;
+    #savedCells;
+
+    constructor(
+            canvas, context, genCounter, 
+            numGens = 0, height = MAX_HEIGHT, width = MAX_WIDTH, 
+    ) {
+        
         this.canvas = canvas;
         this.context = context;
-        this.pixels = [];
-        this.savedPixels = [];
+        this.genCounter = genCounter
+        this.#numGens = numGens;
+        this.height = height;
+        this.width = width;
+        
+        this.#cells = this.#emptyCells();
+        this.#savedCells = this.#emptyCells();
+    }
+
+    toString() {
+        return `${this.canvas} context: ${this.context} genCounter: ${this.genCounter}\n#numGens: ${this.#numGens} height: ${this.height} width: ${this.width}`;
     }
 
     /*
         Public functions - most of these are for click handlers
     */
 
-    clear() {
-        this.pixels.forEach((pixel) => {
-            pixel.isAlive = false;
-            pixel.toggle(this.context);
+    clear(resetGens = false) {
+        this.#cells.forEach((cell) => {
+            cell.isAlive = false;
+            cell.toggle(this.context);
         });
+
+        //TODO: Is there a better way to do this?
+        if(resetGens) {
+            this.#numGens = 0;
+        }
+        this.genCounter.innerHTML = this.#generationString();
+        
     }
 
     defaultShapesHandlers() {
@@ -37,11 +61,12 @@ class Canvas {
     }
 
     draw() {
-        this.pixels.forEach((pixel) => {
-            pixel.toggle(this.context);
+        this.#cells.forEach((cell) => {
+            cell.toggle(this.context);
         })
     }
 
+    //TODO: Should I do this somewhere in the class and make it private? Maybe.
     grid() {
         let counter = 0;
         while(counter < this.width) {
@@ -61,59 +86,53 @@ class Canvas {
         }
     }
 
-    blankPixels() {
-        let blankPixels = [];
+    #emptyCells() {
+        let emptyCells = [];
         for (let height = 0; height < HEIGHT_PIXELS; height++) {
             for(let width = 0; width < WIDTH_PIXELS; width++) {
                 var pixel = new Cell(height, width);
-                blankPixels.push(pixel);
+                emptyCells.push(pixel);
             }
         }
-        return blankPixels;
-    }
-
-    initializePixels() {
-        for (let height = 0; height < HEIGHT_PIXELS; height++) {
-            for(let width = 0; width < WIDTH_PIXELS; width++) {
-                var pixel = new Cell(height, width);
-                this.pixels.push(pixel);
-            }
-        }
+        return emptyCells;
     }
     
-    livePixels(saved = false) {
-        let livePixels = [];
-        let pixels = saved ? this.savedPixels : this.pixels;
+    liveCells(saved = false) {
+        let liveCells = [];
+        let pixels = saved ? this.#savedCells : this.#cells;
         pixels.forEach((pixel) => {
                 if(pixel.isAlive) {
-                    livePixels.push(pixel);
+                    liveCells.push(pixel);
                 }
             });
-        return livePixels;
+        return liveCells;
     }
 
     next() {
-        let nextGen = this.blankPixels();
-        let rules = new LifeRules(this.pixels, nextGen);
-        rules.testGenerate2();
+        let rules = new LifeRules(this.#cells, this.#emptyCells());
+        rules.generate();
+
+        this.#numGens++;
+        this.genCounter.innerHTML = this.#generationString();
 
         this.clear();
         this.grid();
-        this.pixels = rules.next;
+        this.#cells = rules.next;
         this.draw();
     }
 
-    async play(element) {
-        let buttonTag = element.innerHTML;
+    //TODO: This function is so damned clunky, I hate it and I want to refactor it.
+    async play(playButton) {
+        let buttonTag = playButton.innerHTML;
         // If the button starts off saying Play, you click to "Play".
         let keepPlaying = buttonTag === "Play" ? true : false;
-        element.innerHTML = keepPlaying ? "Stop": "Play";
+        playButton.innerHTML = keepPlaying ? "Stop": "Play";
         let fallbackCounter = 0;
 
         while(keepPlaying) {
             
             fallbackCounter++;
-            if(fallbackCounter > FALLBACK_LIMIT || element.innerHTML === "Play") {
+            if(fallbackCounter > FALLBACK_LIMIT || playButton.innerHTML === "Play") {
                 keepPlaying = false;
                 continue;
             }
@@ -121,33 +140,37 @@ class Canvas {
             await sleep();
 
         }
-        element.innerHTML = "Play";
+        playButton.innerHTML = "Play";
     }
 
     restore() {
-        this.pixels = [];
-        this.savedPixels.forEach((pixel) => {
-            let savedPixel = new Cell(pixel.y, pixel.x, pixel.isAlive);
-            this.pixels.push(savedPixel);
+        this.#cells = [];
+        this.#savedCells.forEach((cell) => {
+            let savedCell = new Cell(cell.y, cell.x, cell.isAlive);
+            this.#cells.push(savedCell);
         });
         this.draw();
     }
 
+    #generationString() {
+        return `Generation: ${this.#numGens}`;
+    }
+
     save() {
-        this.pixels.forEach((pixel) => {
-            let savedPixel = new Cell(pixel.y, pixel.x, pixel.isAlive);
-            this.savedPixels.push(savedPixel);
+        this.#cells.forEach((cell) => {
+            let savedCell = new Cell(cell.y, cell.x, cell.isAlive);
+            this.#savedCells.push(savedCell);
         });
     }
 
     test() {
-        if(this.pixels[0].isAlive) {
+        if(this.#cells[0].isAlive) {
             this.#drawingTest();
         }
         else {
             this.#switchTest();
         }
-        this.pixels[0].isAlive = !this.pixels[0].isAlive;
+        this.#cells[0].isAlive = !this.#cells[0].isAlive;
     }
 
     toggle(event) {
@@ -157,11 +180,11 @@ class Canvas {
         const xElement = Math.floor(canvasX / PIXEL_SIZE);
         const yElement = Math.floor(canvasY / PIXEL_SIZE);
 
-        const pixelIndex = yElement * WIDTH_PIXELS + xElement;
-        const pixel = this.pixels[pixelIndex];
+        const cellIndex = yElement * WIDTH_PIXELS + xElement;
+        const cell = this.#cells[cellIndex];
 
-        pixel.isAlive = !pixel.isAlive;
-        pixel.toggle(this.context);
+        cell.isAlive = !cell.isAlive;
+        cell.toggle(this.context);
     }
 
     /*
@@ -170,29 +193,29 @@ class Canvas {
     #drawingTest() {
         this.clear();
         this.grid();
-        this.pixels.forEach((pixel) => {
-            if(pixel.bothSame()) {
-                pixel.isAlive = true;
-                pixel.toggle(this.context);    
+        this.#cells.forEach((cell) => {
+            if(cell.bothSame()) {
+                cell.isAlive = true;
+                cell.toggle(this.context);    
             }
         });
     }
     
     #shapeHandler(shape) {
-        shape.pattern.forEach((shapePixel) => {
-            const index = shapePixel.y * WIDTH_PIXELS + shapePixel.x;
-            let pixel = this.pixels[index];
-            pixel.isAlive = shapePixel.isAlive;
+        shape.pattern.forEach((shapeCell) => {
+            const index = shapeCell.y * WIDTH_PIXELS + shapeCell.x;
+            let pixel = this.#cells[index];
+            pixel.isAlive = shapeCell.isAlive;
         });
     }
 
     #switchTest() {
         this.clear();
         this.grid();
-        this.pixels.forEach((pixel) => {
-            if(pixel.bothDifferent()) {
-                pixel.isAlive = true;
-                pixel.toggle(this.context);
+        this.#cells.forEach((cell) => {
+            if(cell.bothDifferent()) {
+                cell.isAlive = true;
+                cell.toggle(this.context);
             }
         });
     }

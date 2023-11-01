@@ -1,4 +1,4 @@
-import { MAX_WIDTH, MAX_HEIGHT, SLEEP_DELAY } from "./js/constants.js";
+import { SLEEP_DELAY } from "./js/constants.js";
 import { Canvas } from "./js/canvas.js";
 
 /*
@@ -8,12 +8,11 @@ import { Canvas } from "./js/canvas.js";
 function loadJavaScript() {
     
     let canvas = new Canvas(
-        MAX_HEIGHT, MAX_WIDTH, 
         document.getElementById("CGoL_Board"), 
-        document.getElementById("CGoL_Board").getContext("2d"));
+        document.getElementById("CGoL_Board").getContext("2d"),
+        document.getElementById("generationCounter"));
 
     canvas.grid();
-    canvas.initializePixels();
     
     document.getElementById("CGoL_Board").addEventListener("click", (event) => {
         canvas.toggle(event);
@@ -26,7 +25,7 @@ function loadJavaScript() {
 
     let clearButton = document.getElementById("clearButton");
     clearButton.addEventListener("click", () => {
-        canvas.clear();
+        canvas.clear(true);
     });
 
     let savePositionButton = document.getElementById("savePosition");
@@ -51,17 +50,18 @@ function loadJavaScript() {
 
     let savedLivePixelsButton = document.getElementById("savedLivePixels");
     savedLivePixelsButton.addEventListener("click", () => {
-        console.log(canvas.livePixels(true));
+        console.log(canvas.liveCells(true));
     });
 
     let currentLivePixelsButton = document.getElementById("currentLivePixels");
     currentLivePixelsButton.addEventListener("click", () => {
-        console.log(canvas.livePixels());
+        console.log(canvas.liveCells());
     });
 
     canvas.defaultShapesHandlers();
 }
 
+// TODO: Find a better home for this function other than here.
 export async function sleep(ms = SLEEP_DELAY) {
     return new Promise((resolve) => {
         setTimeout(() => {
