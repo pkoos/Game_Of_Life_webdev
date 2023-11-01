@@ -27,7 +27,7 @@ class Cell {
     }
 
     toString() {
-        return `\ny: ${this.y} x: ${this.x} isAlive: ${this.isAlive}`;
+        return `\n(${this.x}, ${this.y}) isAlive: ${this.isAlive}`;
     }
 }
 
