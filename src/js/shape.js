@@ -8,8 +8,8 @@ class Shape {
 
     // TODO: Make this less naive somehow.
     draw(canvasContext, starting_y = 0, starting_x = 0) {
-        this.pattern.forEach((pixel) => {
-            pixel.toggle(canvasContext);
+        this.pattern.forEach((cell) => {
+            cell.toggle(canvasContext);
         })
     }
 }

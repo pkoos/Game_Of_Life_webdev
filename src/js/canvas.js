@@ -1,5 +1,5 @@
 import { 
-    DEFAULT_SHAPE_OBJECTS, HEIGHT_PIXELS, PIXEL_SIZE, WIDTH_PIXELS, 
+    DEFAULT_SHAPE_OBJECTS, HEIGHT_CELLS, CELL_SIZE, WIDTH_CELLS, 
     FALLBACK_LIMIT, MAX_HEIGHT, MAX_WIDTH } from "./constants.js";
 import { Cell } from "./cell.js";
 import { LifeRules } from "./rules.js";
@@ -70,7 +70,7 @@ class Canvas {
     grid() {
         let counter = 0;
         while(counter < this.width) {
-            counter += PIXEL_SIZE;
+            counter += CELL_SIZE;
             this.context.moveTo(counter, 0);
             this.context.lineTo(counter, this.height);
             this.context.stroke();
@@ -79,7 +79,7 @@ class Canvas {
         counter = 0;
 
         while(counter < this.height) {
-            counter += PIXEL_SIZE;
+            counter += CELL_SIZE;
             this.context.moveTo(0, counter);
             this.context.lineTo(this.width, counter);
             this.context.stroke();
@@ -88,10 +88,10 @@ class Canvas {
 
     #emptyCells() {
         let emptyCells = [];
-        for (let height = 0; height < HEIGHT_PIXELS; height++) {
-            for(let width = 0; width < WIDTH_PIXELS; width++) {
-                var pixel = new Cell(height, width);
-                emptyCells.push(pixel);
+        for (let height = 0; height < HEIGHT_CELLS; height++) {
+            for(let width = 0; width < WIDTH_CELLS; width++) {
+                var cell = new Cell(height, width);
+                emptyCells.push(cell);
             }
         }
         return emptyCells;
@@ -99,10 +99,10 @@ class Canvas {
     
     liveCells(saved = false) {
         let liveCells = [];
-        let pixels = saved ? this.#savedCells : this.#cells;
-        pixels.forEach((pixel) => {
-                if(pixel.isAlive) {
-                    liveCells.push(pixel);
+        let cells = saved ? this.#savedCells : this.#cells;
+        cells.forEach((cell) => {
+                if(cell.isAlive) {
+                    liveCells.push(cell);
                 }
             });
         return liveCells;
@@ -177,10 +177,10 @@ class Canvas {
         const canvasX = event.pageX - this.canvas.offsetLeft;
         const canvasY = event.pageY - this.canvas.offsetTop;
 
-        const xElement = Math.floor(canvasX / PIXEL_SIZE);
-        const yElement = Math.floor(canvasY / PIXEL_SIZE);
+        const xElement = Math.floor(canvasX / CELL_SIZE);
+        const yElement = Math.floor(canvasY / CELL_SIZE);
 
-        const cellIndex = yElement * WIDTH_PIXELS + xElement;
+        const cellIndex = yElement * WIDTH_CELLS + xElement;
         const cell = this.#cells[cellIndex];
 
         cell.isAlive = !cell.isAlive;
@@ -203,9 +203,9 @@ class Canvas {
     
     #shapeHandler(shape) {
         shape.pattern.forEach((shapeCell) => {
-            const index = shapeCell.y * WIDTH_PIXELS + shapeCell.x;
-            let pixel = this.#cells[index];
-            pixel.isAlive = shapeCell.isAlive;
+            const index = shapeCell.y * WIDTH_CELLS + shapeCell.x;
+            let cell = this.#cells[index];
+            cell.isAlive = shapeCell.isAlive;
         });
     }
 

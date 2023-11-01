@@ -48,13 +48,13 @@ function loadJavaScript() {
         canvas.play(playAndStopButton);
     })
 
-    let savedLivePixelsButton = document.getElementById("savedLivePixels");
-    savedLivePixelsButton.addEventListener("click", () => {
+    let savedLiveCellsButton = document.getElementById("savedLiveCells");
+    savedLiveCellsButton.addEventListener("click", () => {
         console.log(canvas.liveCells(true));
     });
 
-    let currentLivePixelsButton = document.getElementById("currentLivePixels");
-    currentLivePixelsButton.addEventListener("click", () => {
+    let currentLiveCellsButton = document.getElementById("currentLiveCells");
+    currentLiveCellsButton.addEventListener("click", () => {
         console.log(canvas.liveCells());
     });
 

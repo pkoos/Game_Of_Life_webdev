@@ -1,4 +1,4 @@
-import { PIXEL_SIZE } from "./constants.js";
+import { CELL_SIZE } from "./constants.js";
 
 
 class Cell {
@@ -11,11 +11,11 @@ class Cell {
 
     toggle(context) {
         if(this.isAlive) {
-            context.fillRect(this.x * PIXEL_SIZE, this.y * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+            context.fillRect(this.x * CELL_SIZE, this.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         }
         else {
-            context.clearRect(this.x * PIXEL_SIZE, this.y * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
-            context.strokeRect(this.x * PIXEL_SIZE, this.y * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+            context.clearRect(this.x * CELL_SIZE, this.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+            context.strokeRect(this.x * CELL_SIZE, this.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         }
     }
 

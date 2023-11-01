@@ -1,4 +1,4 @@
-import { WIDTH_PIXELS, HEIGHT_PIXELS } from "./constants.js";
+import { WIDTH_CELLS, HEIGHT_CELLS } from "./constants.js";
 
 class LifeRules {
     constructor(current, next = []) {
@@ -38,8 +38,8 @@ class LifeRules {
         return willLive;
     }
 
-    invalidNeighbor(x, y, pixel) {
-        return this.invalidRow(y) || this.invalidColumn(x) || this.isStartingPixel(x, y, pixel);
+    invalidNeighbor(x, y, cell) {
+        return this.invalidRow(y) || this.invalidColumn(x) || this.isStartingCell(x, y, cell);
     }
 
     invalidRow(y) {
@@ -51,7 +51,7 @@ class LifeRules {
     }
 
     isBottomRow(y) {
-        return y === HEIGHT_PIXELS;
+        return y === HEIGHT_CELLS;
     }
 
     invalidColumn(x) {
@@ -63,25 +63,25 @@ class LifeRules {
     }
 
     isRightcolumn(x) {
-        return x === WIDTH_PIXELS;
+        return x === WIDTH_CELLS;
     }
 
-    isStartingPixel(x, y, pixel) {
-        return pixel.x === x && pixel.y === y;
+    isStartingCell(x, y, cell) {
+        return cell.x === x && cell.y === y;
     }
 
     // TODO: I don't like #getNeighbors, can it be combined with the function below?
-    #getNeighbors(pixel) {
+    #getNeighbors(cell) {
         var neighbors = [];
         const MAX_NEIGHBORS = 8;
         for(var i = 0; i <= MAX_NEIGHBORS; i++) {
-            let currY = (Math.floor(i / 3) - 1) + pixel.y
-            let currX = ((i % 3) - 1) + pixel.x
+            let currY = (Math.floor(i / 3) - 1) + cell.y
+            let currX = ((i % 3) - 1) + cell.x
             
-            if(this.invalidNeighbor(currX, currY, pixel)) {
+            if(this.invalidNeighbor(currX, currY, cell)) {
                 continue;
             }
-            let neighborIndex = currY * WIDTH_PIXELS + currX;
+            let neighborIndex = currY * WIDTH_CELLS + currX;
 
             neighbors.push(this.current[neighborIndex]);
         }
