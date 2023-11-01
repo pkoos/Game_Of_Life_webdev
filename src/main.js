@@ -61,13 +61,4 @@ function loadJavaScript() {
     canvas.defaultShapesHandlers();
 }
 
-// TODO: Find a better home for this function other than here.
-export async function sleep(ms = SLEEP_DELAY) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve();
-        }, ms);
-    });
-}
-
 document.addEventListener("DOMContentLoaded", loadJavaScript);

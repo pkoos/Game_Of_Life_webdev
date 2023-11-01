@@ -3,7 +3,6 @@ import {
     FALLBACK_LIMIT, MAX_HEIGHT, MAX_WIDTH } from "./constants.js";
 import { Cell } from "./cell.js";
 import { LifeRules } from "./rules.js";
-import { sleep } from '../main.js';
 
 class Canvas {
 
@@ -219,6 +218,14 @@ class Canvas {
             }
         });
     }
+}
+
+async function sleep(ms = SLEEP_DELAY) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve();
+        }, ms);
+    });
 }
 
 export { Canvas };
