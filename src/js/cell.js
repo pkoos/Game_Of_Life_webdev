@@ -25,6 +25,10 @@ class Cell {
     bothDifferent() {
         return (this.x) % 2 !== (this.y) % 2;
     }
+
+    toString() {
+        return `\ny: ${this.y} x: ${this.x} isAlive: ${this.isAlive}`;
+    }
 }
 
 export { Cell };

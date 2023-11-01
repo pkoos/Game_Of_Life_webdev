@@ -1,5 +1,6 @@
 import { DEFAULT_SHAPE_OBJECTS, HEIGHT_PIXELS, PIXEL_SIZE, WIDTH_PIXELS  } from "./constants.js";
 import { Cell } from "./cell.js";
+import { LifeRules } from "./rules.js";
 
 class Canvas {
 
@@ -89,6 +90,13 @@ class Canvas {
                 }
             });
         return livePixels;
+    }
+
+    next() {
+        console.log("Next button pressed");
+        let nextGen = this.blankPixels();
+        let rules = new LifeRules(this.pixels, nextGen);
+        rules.testGenerate2();
     }
 
     restore() {

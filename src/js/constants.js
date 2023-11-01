@@ -154,6 +154,18 @@ const DEFAULT_SHAPE_OBJECTS = [
             new Cell(3, 0, true), new Cell(3, 1, false), new Cell(3, 2, false), new Cell(3, 3, false), new Cell(3, 4, false), new Cell(3, 5, false), new Cell(3, 6, true),
             new Cell(4, 0, true), new Cell(4, 1, true), new Cell(4, 2, true), new Cell(4, 3, true), new Cell(4, 4, true), new Cell(4, 5, true), new Cell(4, 6, false)
         ]
+    ),
+    /*
+        This is a test shape, so that I don't have to click the shape every damned time.
+    */
+    new Shape(
+        "CustomTest", 4, 6,
+        [
+            new Cell(0, 0, false), new Cell(0, 1, true), new Cell(0, 2, false), new Cell(0, 3, false), new Cell(0, 4, true), new Cell(0, 5, true),
+            new Cell(1, 0, false), new Cell(1, 1, true), new Cell(1, 2, false), new Cell(1, 3, false), new Cell(1, 4, true), new Cell(1, 5, true),
+            new Cell(2, 0, false), new Cell(2, 1, true), new Cell(2, 2, false), new Cell(2, 3, false), new Cell(2, 4, false), new Cell(2, 5, false),
+            new Cell(3, 0, false), new Cell(3, 1, false), new Cell(3, 2, false), new Cell(3, 3, false), new Cell(3, 4, false), new Cell(3, 5, false)
+        ]
     )
 ];
 

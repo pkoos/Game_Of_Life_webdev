@@ -36,7 +36,22 @@ class LifeRules {
     }
 
     testGenerate2() {
-        let neighbors = this.#getNeighbors()
+        this.current.forEach((cell) => {
+            let neighbors = this.#getNeighbors(cell);
+            let live = [];
+            neighbors.forEach((neighbor) => {
+                if(neighbor.isAlive) {
+                    live.push(neighbor);
+                }
+            });
+            console.log(`all neighbors: ${neighbors}`);
+            // console.log(neighbors);
+            console.log(`live neighbors: ${live}`);
+            console.log(`*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*`);
+            // console.log(live);
+        });
+        // let neighbors = this.#getNeighbors();
+        // console.log(neighbors);
     }
 
     invalidNeighbor(x, y, pixel) {
