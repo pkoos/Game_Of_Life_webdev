@@ -41,7 +41,7 @@ class Canvas {
             cell.toggle(this.context);
         });
 
-        //TODO: Is there a better way to do this?
+        // TODO: Is there a better way to do this?
         if(resetGens) {
             this.#numGens = 0;
         }
@@ -66,7 +66,7 @@ class Canvas {
         })
     }
 
-    //TODO: Should I do this somewhere in the class and make it private? Maybe.
+    // TODO: Should I do this somewhere in the class and make it private? Maybe.
     grid() {
         let counter = 0;
         while(counter < this.width) {
@@ -121,7 +121,7 @@ class Canvas {
         this.draw();
     }
 
-    //TODO: This function is so damned clunky, I hate it and I want to refactor it.
+    // TODO: This function is so damned clunky, I hate it and I want to refactor it.
     async play(playButton) {
         let buttonTag = playButton.innerHTML;
         // If the button starts off saying Play, you click to "Play".

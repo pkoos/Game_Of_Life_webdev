@@ -1,6 +1,4 @@
 import { WIDTH_PIXELS, HEIGHT_PIXELS } from "./constants.js";
-import { Neighbor } from "./neighbors.js";
-import { Cell } from "./cell.js";
 
 class LifeRules {
     constructor(current, next = []) {
@@ -16,7 +14,7 @@ class LifeRules {
         });
     }
 
-    //TODO: This function feels super clunky, see if you can make it better.
+    // TODO: This function feels super clunky, see if you can make it better.
     determineState(cell) {
         let willLive;
 
