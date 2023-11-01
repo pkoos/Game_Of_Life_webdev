@@ -1,5 +1,5 @@
 import { DEFAULT_SHAPE_OBJECTS, HEIGHT_PIXELS, PIXEL_SIZE, WIDTH_PIXELS  } from "./constants.js";
-import { Pixel } from "./pixel.js";
+import { Cell } from "./cell.js";
 
 class Canvas {
 
@@ -64,7 +64,7 @@ class Canvas {
         let blankPixels = [];
         for (let height = 0; height < HEIGHT_PIXELS; height++) {
             for(let width = 0; width < WIDTH_PIXELS; width++) {
-                var pixel = new Pixel(height, width);
+                var pixel = new Cell(height, width);
                 blankPixels.push(pixel);
             }
         }
@@ -74,7 +74,7 @@ class Canvas {
     initializePixels() {
         for (let height = 0; height < HEIGHT_PIXELS; height++) {
             for(let width = 0; width < WIDTH_PIXELS; width++) {
-                var pixel = new Pixel(height, width);
+                var pixel = new Cell(height, width);
                 this.pixels.push(pixel);
             }
         }
@@ -94,7 +94,7 @@ class Canvas {
     restore() {
         this.pixels = [];
         this.savedPixels.forEach((pixel) => {
-            let savedPixel = new Pixel(pixel.y, pixel.x, pixel.isAlive);
+            let savedPixel = new Cell(pixel.y, pixel.x, pixel.isAlive);
             this.pixels.push(savedPixel);
         });
         this.draw();
@@ -102,7 +102,7 @@ class Canvas {
 
     save() {
         this.pixels.forEach((pixel) => {
-            let savedPixel = new Pixel(pixel.y, pixel.x, pixel.isAlive);
+            let savedPixel = new Cell(pixel.y, pixel.x, pixel.isAlive);
             this.savedPixels.push(savedPixel);
         });
     }

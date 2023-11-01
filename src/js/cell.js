@@ -1,7 +1,7 @@
 import { PIXEL_SIZE } from "./constants.js";
 
 
-class Pixel {
+class Cell {
     constructor(y, x, isAlive = false) {
         this.y = y;
         this.x = x;
@@ -27,4 +27,4 @@ class Pixel {
     }
 }
 
-export { Pixel };
+export { Cell };

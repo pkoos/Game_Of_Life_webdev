@@ -1,6 +1,6 @@
 import { WIDTH_PIXELS, HEIGHT_PIXELS } from "./constants.js";
 import { Neighbor } from "./neighbors.js";
-import { Pixel } from "./pixel.js";
+import { Cell } from "./cell.js";
 
 class LifeRules {
     constructor(current, next = []) {
@@ -11,7 +11,7 @@ class LifeRules {
     testGenerate() {
         let nextGeneration = [];
         this.current.forEach((pixel) => {
-            let savedPixel = new Pixel(pixel.y, pixel.x, false);
+            let savedPixel = new Cell(pixel.y, pixel.x, false);
             nextGeneration.push(savedPixel);
         });
         // this.pixels.forEach((pixel) => {
