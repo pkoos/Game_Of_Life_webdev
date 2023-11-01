@@ -11,8 +11,6 @@ function loadJavaScript() {
         document.getElementById("CGoL_Board"), 
         document.getElementById("CGoL_Board").getContext("2d"),
         document.getElementById("generationCounter"));
-
-    canvas.grid();
     
     document.getElementById("CGoL_Board").addEventListener("click", (event) => {
         canvas.toggle(event);

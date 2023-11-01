@@ -24,6 +24,7 @@ class Canvas {
         
         this.#cells = this.#emptyCells();
         this.#savedCells = this.#emptyCells();
+        this.#grid();
     }
 
     toString() {
@@ -40,7 +41,6 @@ class Canvas {
             cell.toggle(this.context);
         });
 
-        // TODO: Is there a better way to do this?
         if(resetGens) {
             this.#numGens = 0;
         }
@@ -65,8 +65,7 @@ class Canvas {
         })
     }
 
-    // TODO: Should I do this somewhere in the class and make it private? Maybe.
-    grid() {
+    #grid() {
         let counter = 0;
         while(counter < this.width) {
             counter += CELL_SIZE;
@@ -115,7 +114,7 @@ class Canvas {
         this.genCounter.innerHTML = this.#generationString();
 
         this.clear();
-        this.grid();
+        this.#grid();
         this.#cells = rules.next;
         this.draw();
     }
@@ -191,7 +190,7 @@ class Canvas {
     */
     #drawingTest() {
         this.clear();
-        this.grid();
+        this.#grid();
         this.#cells.forEach((cell) => {
             if(cell.bothSame()) {
                 cell.isAlive = true;
@@ -210,7 +209,7 @@ class Canvas {
 
     #switchTest() {
         this.clear();
-        this.grid();
+        this.#grid();
         this.#cells.forEach((cell) => {
             if(cell.bothDifferent()) {
                 cell.isAlive = true;
