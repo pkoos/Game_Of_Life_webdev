@@ -1,11 +1,9 @@
-import { 
-    DEFAULT_SHAPE_OBJECTS, HEIGHT_CELLS, CELL_SIZE, WIDTH_CELLS, 
-    FALLBACK_LIMIT, MAX_HEIGHT, MAX_WIDTH, SLEEP_DELAY } from "./constants.js";
+import { DEFAULT_SHAPE_OBJECTS, HEIGHT_CELLS, CELL_SIZE, WIDTH_CELLS, FALLBACK_LIMIT, 
+    MAX_HEIGHT, MAX_WIDTH, SLEEP_DELAY } from "./constants.js";
 import { Cell } from "./cell.js";
 import { LifeRules } from "./rules.js";
 
 class Canvas {
-
     #canvas;
     #context;
     #genCounter;
@@ -17,8 +15,6 @@ class Canvas {
         this.#canvas = canvas;
         this.#context = context;
         this.#genCounter = genCounter;
-        // I'm on the fence about this, but I don't see any reason we need to
-        // pass numGens in the constructor.
         this.#numGens = 0; 
         
         this.#cells = this.#emptyCells();
@@ -54,42 +50,6 @@ class Canvas {
         });
     }
 
-    #draw() {
-        this.#cells.forEach((cell) => {
-            cell.toggle(this.#context);
-        })
-    }
-
-    #grid() {
-        let counter = 0;
-        while(counter < MAX_WIDTH) {
-            counter += CELL_SIZE;
-            this.#context.moveTo(counter, 0);
-            this.#context.lineTo(counter, MAX_HEIGHT);
-            this.#context.stroke();
-        }
-
-        counter = 0;
-
-        while(counter < MAX_HEIGHT) {
-            counter += CELL_SIZE;
-            this.#context.moveTo(0, counter);
-            this.#context.lineTo(MAX_WIDTH, counter);
-            this.#context.stroke();
-        }
-    }
-
-    #emptyCells() {
-        let emptyCells = [];
-        for (let height = 0; height < HEIGHT_CELLS; height++) {
-            for(let width = 0; width < WIDTH_CELLS; width++) {
-                var cell = new Cell(height, width);
-                emptyCells.push(cell);
-            }
-        }
-        return emptyCells;
-    }
-    
     liveCells(saved = false) {
         let liveCells = [];
         let cells = saved ? this.#savedCells : this.#cells;
@@ -146,10 +106,6 @@ class Canvas {
         this.#draw();
     }
 
-    #generationString() {
-        return `Generation: ${this.#numGens}`;
-    }
-
     save() {
         this.#cells.forEach((cell) => {
             let savedCell = new Cell(cell.y, cell.x, cell.isAlive);
@@ -184,6 +140,12 @@ class Canvas {
     /*
         Private Functions - for use only in other functions
     */
+    #draw() {
+       this.#cells.forEach((cell) => {
+           cell.toggle(this.#context);
+       })
+    }
+
     #drawingTest() {
         this.clear();
         this.#grid();
@@ -193,6 +155,40 @@ class Canvas {
                 cell.toggle(this.#context);    
             }
         });
+    }
+
+    #emptyCells() {
+        let emptyCells = [];
+        for (let height = 0; height < HEIGHT_CELLS; height++) {
+            for(let width = 0; width < WIDTH_CELLS; width++) {
+                var cell = new Cell(height, width);
+                emptyCells.push(cell);
+            }
+        }
+        return emptyCells;
+    }
+
+    #generationString() {
+        return `Generation: ${this.#numGens}`;
+    }
+
+    #grid() {
+        let counter = 0;
+        while(counter < MAX_WIDTH) {
+            counter += CELL_SIZE;
+            this.#context.moveTo(counter, 0);
+            this.#context.lineTo(counter, MAX_HEIGHT);
+            this.#context.stroke();
+        }
+
+        counter = 0;
+
+        while(counter < MAX_HEIGHT) {
+            counter += CELL_SIZE;
+            this.#context.moveTo(0, counter);
+            this.#context.lineTo(MAX_WIDTH, counter);
+            this.#context.stroke();
+        }
     }
     
     #shapeHandler(shape) {
