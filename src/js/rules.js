@@ -38,20 +38,46 @@ class LifeRules {
     testGenerate2() {
         this.current.forEach((cell) => {
             let neighbors = this.#getNeighbors(cell);
-            let live = [];
+            let live = 0;
             neighbors.forEach((neighbor) => {
                 if(neighbor.isAlive) {
-                    live.push(neighbor);
+                    live++;
                 }
             });
-            console.log(`all neighbors: ${neighbors}`);
-            // console.log(neighbors);
-            console.log(`live neighbors: ${live}`);
-            console.log(`*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*`);
+            cell.liveNeighbors = live;
+            // both neighbors and live are correct at this point
+
+            console.log(cell);
+            // console.log(`all neighbors: ${neighbors}`);
+            // // console.log(neighbors);
+            // console.log(`live neighbors: ${live}`);
+            // console.log(`*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*`);
             // console.log(live);
         });
+        
         // let neighbors = this.#getNeighbors();
         // console.log(neighbors);
+    }
+
+    determineState2(pixel) {
+        if(pixel.isAlive) {
+            // too many or too few neighbors, this cell dies.
+            if(pixel.liveNeighbors < 2) { 
+                console.log(`Underpopulation: ${pixel.liveNeighbors}`);
+                pixel.isAlive = false;
+            }
+            else if(pixel.liveNeighbors > 3) {
+                console.log(`Overpopulation: ${pixel.liveNeighbors}`);
+                pixel.isAlive = false;
+            }
+            console.log(`Survived: ${pixel.liveNeighbors}`);
+        }
+        else {
+            if(neighbor.live == 3) {
+                console.log(`Reproduction ${pixel.liveNeighbors}`);
+                pixel.isAlive = true;
+            }
+        }
     }
 
     invalidNeighbor(x, y, pixel) {

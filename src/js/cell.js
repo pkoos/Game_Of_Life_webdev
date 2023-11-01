@@ -2,10 +2,11 @@ import { PIXEL_SIZE } from "./constants.js";
 
 
 class Cell {
-    constructor(y, x, isAlive = false) {
+    constructor(y, x, isAlive = false, liveNeighbors = 0) {
         this.y = y;
         this.x = x;
         this.isAlive = isAlive;
+        this.liveNeighbors = liveNeighbors;
     }
 
     toggle(context) {
@@ -27,7 +28,7 @@ class Cell {
     }
 
     toString() {
-        return `\n(${this.x}, ${this.y}) isAlive: ${this.isAlive}`;
+        return `\n(${this.x}, ${this.y}) isAlive: ${this.isAlive} live neighbors: ${this.liveNeighbors}`;
     }
 }
 
