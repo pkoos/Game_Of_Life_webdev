@@ -1,6 +1,6 @@
 import { 
     DEFAULT_SHAPE_OBJECTS, HEIGHT_CELLS, CELL_SIZE, WIDTH_CELLS, 
-    FALLBACK_LIMIT, MAX_HEIGHT, MAX_WIDTH } from "./constants.js";
+    FALLBACK_LIMIT, MAX_HEIGHT, MAX_WIDTH, SLEEP_DELAY } from "./constants.js";
 import { Cell } from "./cell.js";
 import { LifeRules } from "./rules.js";
 
