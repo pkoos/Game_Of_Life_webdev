@@ -70,7 +70,7 @@ class LifeRules {
         return pixel.x === x && pixel.y === y;
     }
 
-    // I don't like #getNeighbors, can it be combined with the function below?
+    // TODO: I don't like #getNeighbors, can it be combined with the function below?
     #getNeighbors(pixel) {
         var neighbors = [];
         const MAX_NEIGHBORS = 8;
