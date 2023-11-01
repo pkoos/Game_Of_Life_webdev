@@ -6,29 +6,24 @@ import { LifeRules } from "./rules.js";
 
 class Canvas {
 
+    #canvas;
+    #context;
+    #genCounter;
     #numGens;
     #cells;
     #savedCells;
 
-    constructor(
-            canvas, context, genCounter, 
-            numGens = 0, height = MAX_HEIGHT, width = MAX_WIDTH, 
-    ) {
-        
-        this.canvas = canvas;
-        this.context = context;
-        this.genCounter = genCounter
-        this.#numGens = numGens;
-        this.height = height;
-        this.width = width;
+    constructor(canvas, context, genCounter) {
+        this.#canvas = canvas;
+        this.#context = context;
+        this.#genCounter = genCounter;
+        // I'm on the fence about this, but I don't see any reason we need to
+        // pass numGens in the constructor.
+        this.#numGens = 0; 
         
         this.#cells = this.#emptyCells();
         this.#savedCells = this.#emptyCells();
         this.#grid();
-    }
-
-    toString() {
-        return `${this.canvas} context: ${this.context} genCounter: ${this.genCounter}\n#numGens: ${this.#numGens} height: ${this.height} width: ${this.width}`;
     }
 
     /*
@@ -38,13 +33,13 @@ class Canvas {
     clear(resetGens = false) {
         this.#cells.forEach((cell) => {
             cell.isAlive = false;
-            cell.toggle(this.context);
+            cell.toggle(this.#context);
         });
 
         if(resetGens) {
             this.#numGens = 0;
         }
-        this.genCounter.innerHTML = this.#generationString();
+        this.#genCounter.innerHTML = this.#generationString();
         
     }
 
@@ -54,33 +49,33 @@ class Canvas {
             button.addEventListener("click", () => {
                 this.clear();
                 this.#shapeHandler(shape);
-                this.draw();
+                this.#draw();
             });
         });
     }
 
-    draw() {
+    #draw() {
         this.#cells.forEach((cell) => {
-            cell.toggle(this.context);
+            cell.toggle(this.#context);
         })
     }
 
     #grid() {
         let counter = 0;
-        while(counter < this.width) {
+        while(counter < MAX_WIDTH) {
             counter += CELL_SIZE;
-            this.context.moveTo(counter, 0);
-            this.context.lineTo(counter, this.height);
-            this.context.stroke();
+            this.#context.moveTo(counter, 0);
+            this.#context.lineTo(counter, MAX_HEIGHT);
+            this.#context.stroke();
         }
 
         counter = 0;
 
-        while(counter < this.height) {
+        while(counter < MAX_HEIGHT) {
             counter += CELL_SIZE;
-            this.context.moveTo(0, counter);
-            this.context.lineTo(this.width, counter);
-            this.context.stroke();
+            this.#context.moveTo(0, counter);
+            this.#context.lineTo(MAX_WIDTH, counter);
+            this.#context.stroke();
         }
     }
 
@@ -99,10 +94,11 @@ class Canvas {
         let liveCells = [];
         let cells = saved ? this.#savedCells : this.#cells;
         cells.forEach((cell) => {
-                if(cell.isAlive) {
-                    liveCells.push(cell);
-                }
-            });
+            if(cell.isAlive) {
+                liveCells.push(cell);
+            }
+        });
+
         return liveCells;
     }
 
@@ -111,12 +107,12 @@ class Canvas {
         rules.generate();
 
         this.#numGens++;
-        this.genCounter.innerHTML = this.#generationString();
+        this.#genCounter.innerHTML = this.#generationString();
 
         this.clear();
         this.#grid();
         this.#cells = rules.next;
-        this.draw();
+        this.#draw();
     }
 
     // TODO: This function is so damned clunky, I hate it and I want to refactor it. - Problem for Future Paul, not Present Paul.
@@ -147,7 +143,7 @@ class Canvas {
             let savedCell = new Cell(cell.y, cell.x, cell.isAlive);
             this.#cells.push(savedCell);
         });
-        this.draw();
+        this.#draw();
     }
 
     #generationString() {
@@ -172,8 +168,8 @@ class Canvas {
     }
 
     toggle(event) {
-        const canvasX = event.pageX - this.canvas.offsetLeft;
-        const canvasY = event.pageY - this.canvas.offsetTop;
+        const canvasX = event.pageX - this.#canvas.offsetLeft;
+        const canvasY = event.pageY - this.#canvas.offsetTop;
 
         const xElement = Math.floor(canvasX / CELL_SIZE);
         const yElement = Math.floor(canvasY / CELL_SIZE);
@@ -182,7 +178,7 @@ class Canvas {
         const cell = this.#cells[cellIndex];
 
         cell.isAlive = !cell.isAlive;
-        cell.toggle(this.context);
+        cell.toggle(this.#context);
     }
 
     /*
@@ -194,7 +190,7 @@ class Canvas {
         this.#cells.forEach((cell) => {
             if(cell.bothSame()) {
                 cell.isAlive = true;
-                cell.toggle(this.context);    
+                cell.toggle(this.#context);    
             }
         });
     }
@@ -213,7 +209,7 @@ class Canvas {
         this.#cells.forEach((cell) => {
             if(cell.bothDifferent()) {
                 cell.isAlive = true;
-                cell.toggle(this.context);
+                cell.toggle(this.#context);
             }
         });
     }
