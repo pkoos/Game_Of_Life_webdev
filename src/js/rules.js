@@ -8,65 +8,50 @@ class LifeRules {
 
     generate() {
         this.current.forEach((cell, index) => {
-            cell.live = this.getLiveNeighborsAmount(cell);
+            cell.live = this.#getLiveNeighborsAmount(cell);
 
-            this.next[index].isAlive = this.determineState(cell);
+            this.next[index].isAlive = this.#determineState(cell);
         });
     }
 
-    // TODO: This function feels super clunky, see if you can make it better.
-    determineState(cell) {
-        let willLive;
-
-        if(cell.isAlive) {
-            if(cell.live < 2 || cell.live > 3) { 
-                willLive = false;
-            } else {
-                willLive = true;    
-            }
-        }
-        else {
-            if(cell.live == 3) {
-                willLive = true;
-            }
-            else {
-                willLive = false;
-            }
-            
-        }
-
-        return willLive;
+    /*
+        Cells are alive in 2 situations:
+            1. If the number of live neighbors is 3.
+            2. If the cell is alive, and has 2 live neighbors.
+    */
+    #determineState(cell) {
+        return ((cell.isAlive && cell.live === 2) || cell.live === 3);
     }
 
-    invalidNeighbor(x, y, cell) {
-        return this.invalidRow(y) || this.invalidColumn(x) || this.isStartingCell(x, y, cell);
+    #invalidNeighbor(x, y, cell) {
+        return this.#invalidRow(y) || this.#invalidColumn(x) || this.#isStartingCell(x, y, cell);
     }
 
-    invalidRow(y) {
-        return this.isTopRow(y) || this.isBottomRow(y);
+    #invalidRow(y) {
+        return this.#isTopRow(y) || this.#isBottomRow(y);
     }
 
-    isTopRow(y) {
+    #isTopRow(y) {
         return y < 0;
     }
 
-    isBottomRow(y) {
+    #isBottomRow(y) {
         return y === HEIGHT_CELLS;
     }
 
-    invalidColumn(x) {
-        return this.isLeftColumn(x) || this.isRightcolumn(x);
+    #invalidColumn(x) {
+        return this.#isLeftColumn(x) || this.#isRightcolumn(x);
     }
 
-    isLeftColumn(x) {
+    #isLeftColumn(x) {
         return x < 0;
     }
 
-    isRightcolumn(x) {
+    #isRightcolumn(x) {
         return x === WIDTH_CELLS;
     }
 
-    isStartingCell(x, y, cell) {
+    #isStartingCell(x, y, cell) {
         return cell.x === x && cell.y === y;
     }
 
@@ -78,19 +63,18 @@ class LifeRules {
             let currY = (Math.floor(i / 3) - 1) + cell.y
             let currX = ((i % 3) - 1) + cell.x
             
-            if(this.invalidNeighbor(currX, currY, cell)) {
+            if(this.#invalidNeighbor(currX, currY, cell)) {
                 continue;
             }
             let neighborIndex = currY * WIDTH_CELLS + currX;
 
             neighbors.push(this.current[neighborIndex]);
         }
-        // console.log(neighbors);
         return neighbors;
     }
 
     // TODO: I don't like getLiveNeighborsAmount, can it be combined with the function above?
-    getLiveNeighborsAmount(cell) {
+    #getLiveNeighborsAmount(cell) {
         let neighbors = this.#getNeighbors(cell);
         let live = 0;
         neighbors.forEach((cell) => {
@@ -98,7 +82,6 @@ class LifeRules {
                 live++;
             }
         });
-
         return live;
     }
 }

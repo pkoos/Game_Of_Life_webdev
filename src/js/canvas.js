@@ -119,7 +119,7 @@ class Canvas {
         this.draw();
     }
 
-    // TODO: This function is so damned clunky, I hate it and I want to refactor it.
+    // TODO: This function is so damned clunky, I hate it and I want to refactor it. - Problem for Future Paul, not Present Paul.
     async play(playButton) {
         let buttonTag = playButton.innerHTML;
         // If the button starts off saying Play, you click to "Play".
