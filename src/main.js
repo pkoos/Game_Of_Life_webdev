@@ -1,4 +1,4 @@
-import { MAX_WIDTH, MAX_HEIGHT } from "./js/constants.js";
+import { MAX_WIDTH, MAX_HEIGHT, SLEEP_DELAY } from "./js/constants.js";
 import { Canvas } from "./js/canvas.js";
 
 /*
@@ -41,14 +41,13 @@ function loadJavaScript() {
 
     let nextGenerationButton = document.getElementById("nextGeneration");
     nextGenerationButton.addEventListener("click", (event) => {
-        // let rules = new LifeRules(canvas.pixels);
-        // let nextBoard = rules.testGenerate();
-
-        // nextBoard.forEach((pixel) => {
-        //     pixel.toggle(canvas.context);
-        // })
         canvas.next();
     });
+
+    let playAndStopButton = document.getElementById("playAndStop");
+    playAndStopButton.addEventListener("click", (event) => {
+        canvas.play(playAndStopButton);
+    })
 
     let savedLivePixelsButton = document.getElementById("savedLivePixels");
     savedLivePixelsButton.addEventListener("click", () => {
@@ -61,6 +60,14 @@ function loadJavaScript() {
     });
 
     canvas.defaultShapesHandlers();
+}
+
+export async function sleep(ms = SLEEP_DELAY) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve();
+        }, ms);
+    });
 }
 
 document.addEventListener("DOMContentLoaded", loadJavaScript);

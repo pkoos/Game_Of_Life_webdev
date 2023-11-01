@@ -14,23 +14,10 @@ class LifeRules {
             let savedPixel = new Cell(pixel.y, pixel.x, false);
             nextGeneration.push(savedPixel);
         });
-        // this.pixels.forEach((pixel) => {
-            // let neighbors = this.#getNeighbors(pixel);
         nextGeneration.forEach((pixel) => {
             let neighbor = new Neighbor(this.#getNeighbors(pixel));
             this.determineState(pixel, neighbor);
         })
-        // let neighbor1 = new Neighbor(this.#getNeighbors(nextGeneration[0]));
-        // this.determineState(nextGeneration[0], neighbor1);
-        // let neighbor2 = new Neighbor(this.#getNeighbors(nextGeneration[46]));
-        // this.determineState(nextGeneration[46], neighbor2);
-        // let neighbor3 = new Neighbor(this.#getNeighbors(nextGeneration[47]));
-        // this.determineState(nextGeneration[47], neighbor3);
-        // let neighbor4 = new Neighbor(this.#getNeighbors(nextGeneration[48]));
-        // this.determineState(nextGeneration[48], neighbor4);
-        // let neighbor5 = new Neighbor(this.#getNeighbors(nextGeneration[49]));
-        // this.determineState(nextGeneration[49], neighbor5);
-        // });
         console.log(nextGeneration);
         return nextGeneration;
     }
@@ -48,20 +35,16 @@ class LifeRules {
 
         if(cell.isAlive) {
             if(cell.live < 2 || cell.live > 3) { 
-                console.log(`(Under/Over)population: ${cell.live}`);
                 willLive = false;
             } else {
-                console.log(`Survived: ${cell.live}`);
                 willLive = true;    
             }
         }
         else {
             if(cell.live == 3) {
-                console.log(`Reproduction ${cell.live}`);
                 willLive = true;
             }
             else {
-                console.log(`Still dead ${cell.live}`);
                 willLive = false;
             }
             
@@ -134,16 +117,12 @@ class LifeRules {
 
     determineState(pixel, neighbor) {
         if(pixel.isAlive) {
-            // too many or too few neighbors, this cell dies.
             if(neighbor.live < 2 || neighbor.live > 3) { 
-                console.log("Pixel had too many or few neighbors, and dies");
                 pixel.isAlive = false;
             }
-            console.log("Pixel Survived");
         }
         else {
             if(neighbor.live == 3) {
-                console.log("Pixel reproduces");
                 pixel.isAlive = true;
             }
         }

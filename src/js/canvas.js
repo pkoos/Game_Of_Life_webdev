@@ -1,6 +1,7 @@
-import { DEFAULT_SHAPE_OBJECTS, HEIGHT_PIXELS, PIXEL_SIZE, WIDTH_PIXELS  } from "./constants.js";
+import { DEFAULT_SHAPE_OBJECTS, HEIGHT_PIXELS, PIXEL_SIZE, WIDTH_PIXELS, FALLBACK_LIMIT  } from "./constants.js";
 import { Cell } from "./cell.js";
 import { LifeRules } from "./rules.js";
+import { sleep } from '../main.js';
 
 class Canvas {
 
@@ -28,7 +29,6 @@ class Canvas {
         DEFAULT_SHAPE_OBJECTS.forEach((shape) => {
             let button = document.getElementById(`shape${shape.name}`);
             button.addEventListener("click", () => {
-                console.log(`${shape.name} clicked`);
                 this.clear();
                 this.#shapeHandler(shape);
                 this.draw();
@@ -93,7 +93,6 @@ class Canvas {
     }
 
     next() {
-        console.log("Next button pressed");
         let nextGen = this.blankPixels();
         let rules = new LifeRules(this.pixels, nextGen);
         rules.testGenerate2();
@@ -102,6 +101,27 @@ class Canvas {
         this.grid();
         this.pixels = rules.next;
         this.draw();
+    }
+
+    async play(element) {
+        let buttonTag = element.innerHTML;
+        // If the button starts off saying Play, you click to "Play".
+        let keepPlaying = buttonTag === "Play" ? true : false;
+        element.innerHTML = keepPlaying ? "Stop": "Play";
+        let fallbackCounter = 0;
+
+        while(keepPlaying) {
+            
+            fallbackCounter++;
+            if(fallbackCounter > FALLBACK_LIMIT || element.innerHTML === "Play") {
+                keepPlaying = false;
+                continue;
+            }
+            this.next();
+            await sleep();
+
+        }
+        element.innerHTML = "Play";
     }
 
     restore() {
