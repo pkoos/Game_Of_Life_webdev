@@ -36,48 +36,38 @@ class LifeRules {
     }
 
     testGenerate2() {
-        this.current.forEach((cell) => {
-            let neighbors = this.#getNeighbors(cell);
-            let live = 0;
-            neighbors.forEach((neighbor) => {
-                if(neighbor.isAlive) {
-                    live++;
-                }
-            });
-            cell.liveNeighbors = live;
-            // both neighbors and live are correct at this point
+        this.current.forEach((cell, index) => {
+            cell.live = this.getLiveNeighborsAmount(cell);
 
-            console.log(cell);
-            // console.log(`all neighbors: ${neighbors}`);
-            // // console.log(neighbors);
-            // console.log(`live neighbors: ${live}`);
-            // console.log(`*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*`);
-            // console.log(live);
+            this.next[index].isAlive = this.determineState2(cell);
         });
-        
-        // let neighbors = this.#getNeighbors();
-        // console.log(neighbors);
     }
 
-    determineState2(pixel) {
-        if(pixel.isAlive) {
-            // too many or too few neighbors, this cell dies.
-            if(pixel.liveNeighbors < 2) { 
-                console.log(`Underpopulation: ${pixel.liveNeighbors}`);
-                pixel.isAlive = false;
+    determineState2(cell) {
+        let willLive;
+
+        if(cell.isAlive) {
+            if(cell.live < 2 || cell.live > 3) { 
+                console.log(`(Under/Over)population: ${cell.live}`);
+                willLive = false;
+            } else {
+                console.log(`Survived: ${cell.live}`);
+                willLive = true;    
             }
-            else if(pixel.liveNeighbors > 3) {
-                console.log(`Overpopulation: ${pixel.liveNeighbors}`);
-                pixel.isAlive = false;
-            }
-            console.log(`Survived: ${pixel.liveNeighbors}`);
         }
         else {
-            if(neighbor.live == 3) {
-                console.log(`Reproduction ${pixel.liveNeighbors}`);
-                pixel.isAlive = true;
+            if(cell.live == 3) {
+                console.log(`Reproduction ${cell.live}`);
+                willLive = true;
             }
+            else {
+                console.log(`Still dead ${cell.live}`);
+                willLive = false;
+            }
+            
         }
+
+        return willLive;
     }
 
     invalidNeighbor(x, y, pixel) {
@@ -128,6 +118,18 @@ class LifeRules {
         }
         // console.log(neighbors);
         return neighbors;
+    }
+
+    getLiveNeighborsAmount(cell) {
+        let neighbors = this.#getNeighbors(cell);
+        let live = 0;
+        neighbors.forEach((cell) => {
+            if(cell.isAlive) {
+                live++;
+            }
+        });
+
+        return live;
     }
 
     determineState(pixel, neighbor) {
