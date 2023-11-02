@@ -1,9 +1,4 @@
-import { SLEEP_DELAY } from "./js/constants.js";
 import { Canvas } from "./js/canvas.js";
-
-/*
-    Button Handlers
-*/
 
 function loadJavaScript() {
     
