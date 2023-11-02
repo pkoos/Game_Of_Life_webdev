@@ -70,7 +70,7 @@ class Canvas {
         this.#genCounter.innerHTML = this.#generationString();
 
         this.clear();
-        this.#grid();
+        // this.#grid();
         this.#cells = rules.next;
         this.#draw();
     }
@@ -148,7 +148,7 @@ class Canvas {
 
     #drawingTest() {
         this.clear();
-        this.#grid();
+        // this.#grid();
         this.#cells.forEach((cell) => {
             if(cell.bothSame()) {
                 cell.isAlive = true;
@@ -172,6 +172,7 @@ class Canvas {
         return `Generation: ${this.#numGens}`;
     }
 
+    // TODO - Memory Profiling of this function to see how to make it better
     #grid() {
         let counter = 0;
         while(counter < MAX_WIDTH) {
@@ -201,7 +202,7 @@ class Canvas {
 
     #switchTest() {
         this.clear();
-        this.#grid();
+        // this.#grid();
         this.#cells.forEach((cell) => {
             if(cell.bothDifferent()) {
                 cell.isAlive = true;
