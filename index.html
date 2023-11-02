@@ -1,68 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="src/css/main.css">
-    <script src="src/main.js" type="module"></script>
-    <title>Conway's Game of Life</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="src/css/main.css">
+  <script src="src/main.js" type="module"></script>
+  <title>Conway's Game of Life</title>
 </head>
+
 <body>
-    <h1>Conway's Game of Life</h1>
-    <div class="allButtons">
-        <h2>Controls</h2>
+  <h1>Conway's Game of Life</h1>
+  <div class="panels">
+    <div class="buttonControls panel">
+      <h2>Controls</h2>
+      <div class="allButtons">
         <div class="buttonsGroup" id="testButtons">
-            <div class="shapesGroup">
-                <h4>Test Buttons</h4>
-                <button class="buttonClass" id="canvasTest">Canvas Test</button>
-                <button class="buttonClass" id="clearButton">Clear</button>
+          <div class="shapesGroup">
+            <h4>Test Buttons</h4>
+            <button class="buttonClass" id="canvasTest">Canvas Test</button>
+            <button class="buttonClass" id="clearButton">Clear</button>
+          </div>
+          <div class="shapesGroup" id="otherButtons">
+            <h4>Game Buttons</h4>
+            <div class="buttonRow row0">
+              <button class="buttonClass" id="savePosition">Save Position</button>
+              <button class="buttonClass" id="restorePosition">Restore Position</button>
+              <button class="buttonClass" id="nextGeneration">Next Generation</button>
             </div>
-            <div class="shapesGroup" id="otherButtons">
-                <h4>Game Buttons</h4>
-                <div class="buttonRow row0" >
-                    <button class="buttonClass" id="savePosition">Save Position</button>
-                    <button class="buttonClass" id="restorePosition">Restore Position</button>
-                    <button class="buttonClass" id="nextGeneration">Next Generation</button>
-                </div>
-                <div class="buttonRow">
-                    <button class="buttonClass" id="playAndStop">Play</button>
-                </div>
+            <div class="buttonRow">
+              <button class="buttonClass" id="playAndStop">Play</button>
             </div>
-            <div class="shapesGroup" id="otherOtherButtons">
-                <h4>Debug Info Buttons</h4>
-                <button class="buttonClass" id="savedLiveCells">Live Cells (Saved)</button>
-                <button class="buttonClass" id="currentLiveCells">Live Cells (Current)</button>
-            </div>
-        </div>
+          </div>
+          <div class="shapesGroup" id="otherOtherButtons">
+            <h4>Debug Info Buttons</h4>
+            <button class="buttonClass" id="savedLiveCells">Live Cells (Saved)</button>
+            <button class="buttonClass" id="currentLiveCells">Live Cells (Current)</button>
+          </div>
+        </div> <!-- class="buttonsGroup" id="testButtons" -->
         <div class="buttonsGroup" id="defaultShapes">
-            <!-- <h3>Default Shapes</h3> -->
-            <div class="shapesGroup">
-                <h4>Still Shapes</h4>
-                <button class="buttonClass" id="shapeBlock">Block</button>
-                <button class="buttonClass" id="shapeBeehive">Beehive</button>
-                <button class="buttonClass" id="shapeLoaf">Loaf</button>
-                <button class="buttonClass" id="shapeBoat">Boat</button>
-                <button class="buttonClass" id="shapeTub">Tub</button>
-                <button class="buttonClass" id="shapeCustomTest">Custom Test Board</button>
+          <div class="shapesGroup">
+            <h4>Still Shapes</h4>
+            <div class="buttonRow row0">
+              <button class="buttonClass" id="shapeBlock">Block</button>
+              <button class="buttonClass" id="shapeBeehive">Beehive</button>
+              <button class="buttonClass" id="shapeLoaf">Loaf</button>
             </div>
-            <div class="shapesGroup">
-                <h4>Oscillators</h4>
-                <button class="buttonClass" id="shapeBlinker">Blinker</button>
-                <button class="buttonClass" id="shapeToad">Toad</button>
-                <button class="buttonClass" id="shapeBeacon">Beacon</button>
-                <button class="buttonClass" id="shapePulsar">Pulsar</button>
-                <button class="buttonClass" id="shapePenta-decathlon">Penta-decathlon</button>
+            <div class="buttonRow row1">
+              <button class="buttonClass" id="shapeBoat">Boat</button>
+              <button class="buttonClass" id="shapeTub">Tub</button>
+              <button class="buttonClass" id="shapeCustomTest">Custom Test Board</button>
             </div>
-            <div class="shapesGroup">
-                <h4>Spaceships</h4>
-                <button class="buttonClass" id="shapeGlider">Glider</button>
-                <button class="buttonClass" id="shapeLWSS">Light-weight spaceship</button>
-                <button class="buttonClass" id="shapeMWSS">Middle-weight spaceship</button>
-                <button class="buttonClass" id="shapeHWSS">Heavy-weight spaceship</button>
+          </div>
+          <div class="shapesGroup">
+            <h4>Oscillators</h4>
+            <button class="buttonClass" id="shapeBlinker">Blinker</button>
+            <button class="buttonClass" id="shapeToad">Toad</button>
+            <button class="buttonClass" id="shapeBeacon">Beacon</button>
+            <button class="buttonClass" id="shapePulsar">Pulsar</button>
+            <button class="buttonClass" id="shapePenta-decathlon">Penta-decathlon</button>
+          </div>
+          <div class="shapesGroup">
+            <h4>Spaceships</h4>
+            <div class="buttonRow row0">
+              <button class="buttonClass" id="shapeGlider">Glider</button>
+              <button class="buttonClass" id="shapeLWSS">Light-weight spaceship</button>
             </div>
+            <div class="buttonRow row1">
+              <button class="buttonClass" id="shapeMWSS">Middle-weight spaceship</button>
+              <button class="buttonClass" id="shapeHWSS">Heavy-weight spaceship</button>
+            </div>
+          </div>
         </div>
-    </div>
-    <h2 id="generationCounter">Generation: 0</h2>
-    <canvas id="CGoL_Board" width="1200" height="800"></canvas>
+      </div> <!-- class="allButtons" -->
+    </div> <!-- class="buttonControls panel" -->
+    <div class="rules panel">
+      <h2>Conway's Game of Life Rules</h2>
+      <div class="rulesGroup">
+        <p>Source: <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life" target="_blank">Wikipedia</a></p>
+          <ol>
+            <li>Any live cell with fewer than two live neighbors dies, as if by underpopulation.</li>
+            <li>Any live cell with two or three live neighbors lives on to the next generation.</li>
+            <li>Any live cell with more than three live neighbors dies, as if by overpopulation.</li>
+            <li>Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.</li>
+          </ol>
+      </div>
+    </div> <!-- class="rules panel" -->
+  </div> <!-- class="panels" -->
+  <div class="canvasPanel">
+    <center>
+      <h2 id="generationCounter">Generation: 0</h2>
+      <canvas id="CGoL_Board" width="1200" height="800"></canvas>
+    </center>
+  </div>
 </body>
+
 </html>

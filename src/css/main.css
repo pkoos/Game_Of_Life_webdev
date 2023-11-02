@@ -5,6 +5,7 @@ body {
 canvas {
     border: 2px solid #000000;
     margin: 10px;
+    text-align: center;
 }
 
 h1, h2, h3, h4 {
@@ -15,25 +16,46 @@ h2, h3, h4 {
     margin: 5px;
 }
 
+li {
+    font-size: larger;
+}
+
 .allButtons {
+    display: flex;
+}
+
+.buttonControls {
+    width: 60%
+}
+
+.rules {
+    width: 40%
+}
+
+.panel {
     background-color: #a1c3c2;
+    display: inline-block;
     margin: 10px;
     padding: 5px;
-    width: fit-content;
     border: 5px solid #000000;
+}
+
+.panels {
+    display: flex;
 }
 
 .buttonRow.row0 {
     margin-bottom: 10px;
 }
 
-.buttonsGroup {
+.buttonsGroup, .rulesGroup {
     background-color: #3d605f;
     border: 3px solid #000000;
     display: inline-block;
     margin: 5px;
     padding: 5px;
     width: auto;
+    flex:1;
 }
 
 .shapesGroup {
