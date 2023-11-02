@@ -1,57 +1,55 @@
-// import { Canvas } from "./js/canvas.js";
-import { Canvas } from "./ts/build/canvas.js";
+import { Canvas } from "./canvas.js";
 
 
 function loadJavaScript() {
     let canvas = new Canvas(
-        document.getElementById("CGoL_Board"), 
-        document.getElementById("CGoL_Board").getContext("2d"),
-        document.getElementById("generationCounter"));
+        document.getElementById("CGoL_Board")!, 
+        (document.getElementById("CGoL_Board") as HTMLCanvasElement).getContext("2d")!,
+        (document.getElementById("generationCounter") as HTMLHeadingElement)!);
     
-    document.getElementById("CGoL_Board").addEventListener("click", (event) => {
+    document.getElementById("CGoL_Board")!.addEventListener("click", (event) => {
         canvas.toggle(event);
     });
 
-    let canvasTest = document.getElementById("canvasTest");
+    let canvasTest = document.getElementById("canvasTest")!;
     canvasTest.addEventListener("click", () => {
         canvas.test();
     });
 
-    let clearButton = document.getElementById("clearButton");
+    let clearButton = document.getElementById("clearButton")!;
     clearButton.addEventListener("click", () => {
         canvas.clear(true);
     });
 
-    let savePositionButton = document.getElementById("savePosition");
+    let savePositionButton = document.getElementById("savePosition")!;
     savePositionButton.addEventListener("click", () => {
         canvas.save();
     });
 
-    let restorePositionButton = document.getElementById("restorePosition");
+    let restorePositionButton = document.getElementById("restorePosition")!;
     restorePositionButton.addEventListener("click", () => {
         canvas.restore();
     });
 
-    let nextGenerationButton = document.getElementById("nextGeneration");
+    let nextGenerationButton = document.getElementById("nextGeneration")!;
     nextGenerationButton.addEventListener("click", (event) => {
         canvas.next();
     });
 
-    let playAndStopButton = document.getElementById("playAndStop");
+    let playAndStopButton = document.getElementById("playAndStop")!;
     playAndStopButton.addEventListener("click", (event) => {
         canvas.play(playAndStopButton);
     })
 
-    let savedLiveCellsButton = document.getElementById("savedLiveCells");
+    let savedLiveCellsButton = document.getElementById("savedLiveCells")!;
     savedLiveCellsButton.addEventListener("click", () => {
         console.log(canvas.liveCells(true));
     });
 
-    let currentLiveCellsButton = document.getElementById("currentLiveCells");
+    let currentLiveCellsButton = document.getElementById("currentLiveCells")!;
     currentLiveCellsButton.addEventListener("click", () => {
         console.log(canvas.liveCells());
     });
 }
 
 document.addEventListener("DOMContentLoaded", loadJavaScript);
-console.log("bottom of main.js!!!!");
