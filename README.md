@@ -23,6 +23,30 @@ In some cases, you do not need the '3' above, and would run this command:
 python -m http.server
 ```
 
+There are two versions of the files: JavaScript and TypeScript. You can run 
+either, although after this point (11/2/2023), I will most likely move over
+to TypeScript and continue development.
+
+Within the head of the html file, there are two script tags, with one being 
+commented out. Above each line is a comment. Simply comment out the one you
+do not want to use, and uncomment the one you do want to use.
+
+```
+  <!-- <script src="src/main.js" type="module"></script> -->
+  <script src="src/ts/build/main.js" type="module"></script>
+```
+
+With TypeScript, there is an additional step of compiling the Typescript
+files into Javascript. I have provided a build script, which can be run
+with the following command: 
+
+```
+./buildScript.sh
+```
+
+Once you've compiled the files, run the above `python/python3` command.
+
+
 ## Future improvements and TODOs
 
 This is a first pass, with mostly naive implementations, so there are many areas to improve upon.
