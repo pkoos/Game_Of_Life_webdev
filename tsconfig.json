@@ -43,7 +43,7 @@
         "noEmit": false,
         "noEmitHelpers": false,
         "noEmitOnError": false,
-        "outDir": "build",
+        "outDir": "dist",
         "preserveConstEnums": true,
         "preserveValueImports": false,
         "removeComments": false,
@@ -62,11 +62,11 @@
 
     },
     "files": [
-        "canvas.ts",
-        "cell.ts",
-        "constants.ts",
-        "main.ts",
-        "rules.ts",
-        "shape.ts"
+        "./src/ts/canvas.ts",
+        "./src/ts/cell.ts",
+        "./src/ts/constants.ts",
+        "./src/ts/main.ts",
+        "./src/ts/rules.ts",
+        "./src/ts/shape.ts"
     ]
 }
