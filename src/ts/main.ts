@@ -32,12 +32,12 @@ function loadJavaScript() {
     });
 
     let nextGenerationButton = document.getElementById("nextGeneration")!;
-    nextGenerationButton.addEventListener("click", (event) => {
+    nextGenerationButton.addEventListener("click", () => {
         canvas.next();
     });
 
     let playAndStopButton = document.getElementById("playAndStop")!;
-    playAndStopButton.addEventListener("click", (event) => {
+    playAndStopButton.addEventListener("click", () => {
         canvas.play(playAndStopButton);
     })
 

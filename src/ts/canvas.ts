@@ -116,13 +116,13 @@ class Canvas {
     }
 
     test() {
-        if(this.cells[0].isAlive) {
+        if(this.cells[0]!.isAlive) {
             this.#drawingTest();
         }
         else {
             this.#switchTest();
         }
-        this.cells[0].isAlive = !this.cells[0].isAlive;
+        this.cells[0]!.isAlive = !this.cells[0]!.isAlive;
     }
 
     toggle(event: MouseEvent) {
@@ -133,7 +133,7 @@ class Canvas {
         const yElement = Math.floor(canvasY / CELL_SIZE);
 
         const cellIndex = yElement * WIDTH_CELLS + xElement;
-        const cell = this.cells[cellIndex];
+        const cell = this.cells[cellIndex]!;
 
         cell.isAlive = !cell.isAlive;
         cell.toggle(this.context);
@@ -197,7 +197,7 @@ class Canvas {
     #shapeHandler(shape: Shape) {
         shape.pattern.forEach((shapeCell: Cell) => {
             const index: number = shapeCell.y * WIDTH_CELLS + shapeCell.x;
-            let cell: Cell = this.cells[index];
+            let cell: Cell = this.cells[index]!;
             cell.isAlive = shapeCell.isAlive;
         });
     }

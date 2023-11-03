@@ -14,7 +14,7 @@ class LifeRules {
         this.current.forEach((cell, index) => {
             cell.live = this.#getLiveNeighborsAmount(cell);
 
-            this.next[index].isAlive = this.#determineState(cell);
+            this.next[index]!.isAlive = this.#determineState(cell);
         });
     }
 
@@ -72,7 +72,7 @@ class LifeRules {
             }
             let neighborIndex = currY * WIDTH_CELLS + currX;
 
-            neighbors.push(this.current[neighborIndex]);
+            neighbors.push(this.current[neighborIndex]!);
         }
         return neighbors;
     }
