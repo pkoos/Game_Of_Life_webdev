@@ -37,15 +37,14 @@ do not want to use, and uncomment the one you do want to use.
 ```
 
 With TypeScript, there is an additional step of compiling the Typescript
-files into Javascript. I have provided a build script, which can be run
-with the following command: 
+files into Javascript. Use this command from the root directory: 
 
 ```
-./buildScript.sh
+tsc -p src/ts
 ```
 
-Once you've compiled the files, run the above `python/python3` command.
-
+the above `python` or `python3` command can be run at any time, but you need
+to compile the files if using TypeScript.
 
 ## Future improvements and TODOs
 
